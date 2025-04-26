@@ -274,7 +274,7 @@ dim(roll_calls)
 ```
 
 
-> Insert Answer Here
+> The number of rows do not match between 'issues' (5745 rows) and 'roll_calls' (6202 rows). This indicates that the issues dataset does not contain all the observations (the historical record of votes data) that roll_calls does.
 
 
 

@@ -3326,6 +3326,10 @@ Note
 <section id="data-exploration" class="level2">
 <h2 class="anchored" data-anchor-id="data-exploration">Data Exploration</h2>
 <p>Our goal today is to explore how various members (countries) in the United Nations vote. We have three data sets, what can we determine from each data set separately?</p>
+<p>Response by River Mckegney:</p>
+<blockquote class="blockquote">
+<p>With the ‘unvotes’ dataset we can evaluate location data (country level) associated with votes and also a countries vote type. With the ‘roll_calls’ dataset we can suss out the datetime and information about vote meetings held by the United Nations. The ‘issues’ dataset contains pertinent information about the vote topic.</p>
+</blockquote>
 <section id="un-votes" class="level3">
 <h3 class="anchored" data-anchor-id="un-votes">UN Votes</h3>
 <p>The first data set, <code>unvotes</code> contains data on the <code>rcid</code> which is the roll call id for the vote, the country/country code, and how the country voted. What can we learn from the data?</p>
@@ -4328,315 +4332,319 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb38-146"><a href="#cb38-146" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Exploration</span></span>
 <span id="cb38-147"><a href="#cb38-147" aria-hidden="true" tabindex="-1"></a>Our goal today is to explore how various members (countries) in the United Nations vote. We have three data sets, what can we determine from each data set separately?</span>
 <span id="cb38-148"><a href="#cb38-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-149"><a href="#cb38-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-150"><a href="#cb38-150" aria-hidden="true" tabindex="-1"></a><span class="fu">### UN Votes</span></span>
-<span id="cb38-151"><a href="#cb38-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-152"><a href="#cb38-152" aria-hidden="true" tabindex="-1"></a>The first data set, <span class="in">`unvotes`</span> contains data on the <span class="in">`rcid`</span> which is the roll call id for the vote, the country/country code, and how the country voted. What can we learn from the data?  </span>
+<span id="cb38-149"><a href="#cb38-149" aria-hidden="true" tabindex="-1"></a>Response by River Mckegney:</span>
+<span id="cb38-150"><a href="#cb38-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-151"><a href="#cb38-151" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; With the &#39;unvotes&#39; dataset we can evaluate location data (country level) associated with votes and also a countries vote type.</span></span>
+<span id="cb38-152"><a href="#cb38-152" aria-hidden="true" tabindex="-1"></a><span class="at">With the &#39;roll_calls&#39; dataset we can suss out the datetime and information about vote meetings held by the United Nations. The &#39;issues&#39; dataset contains pertinent information about the vote topic.</span></span>
 <span id="cb38-153"><a href="#cb38-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-154"><a href="#cb38-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-155"><a href="#cb38-155" aria-hidden="true" tabindex="-1"></a>Comment on the following code, what is happening in each line?  One way to approach seeing what each line does is to highlight the code from before the <span class="in">`pipe`</span> of that line up to the data <span class="in">`unvotes`</span> and use <span class="in">`CTRL + ENTER`</span> to run just the highlighted lines.  </span>
-<span id="cb38-156"><a href="#cb38-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-159"><a href="#cb38-159" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-160"><a href="#cb38-160" aria-hidden="true" tabindex="-1"></a>unvotes <span class="sc">|&gt;</span> </span>
-<span id="cb38-161"><a href="#cb38-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(country, vote) <span class="sc">|&gt;</span> <span class="co">#comment</span></span>
-<span id="cb38-162"><a href="#cb38-162" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">|&gt;</span> <span class="co">#comment</span></span>
-<span id="cb38-163"><a href="#cb38-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total =</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> <span class="co">#comment </span></span>
-<span id="cb38-164"><a href="#cb38-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop_vote =</span> n<span class="sc">/</span>total) <span class="sc">|&gt;</span> <span class="co">#comment</span></span>
-<span id="cb38-165"><a href="#cb38-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;United States&quot;</span>, <span class="st">&quot;Canada&quot;</span>, </span>
-<span id="cb38-166"><a href="#cb38-166" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;Germany&quot;</span>, <span class="st">&quot;France&quot;</span>,</span>
-<span id="cb38-167"><a href="#cb38-167" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;Italy&quot;</span>, <span class="st">&quot;Japan&quot;</span>,</span>
-<span id="cb38-168"><a href="#cb38-168" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;United Kingdom&quot;</span>)) <span class="sc">|&gt;</span> <span class="co">#comment</span></span>
-<span id="cb38-169"><a href="#cb38-169" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> country, <span class="at">y =</span> prop_vote, </span>
-<span id="cb38-170"><a href="#cb38-170" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> vote)) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb38-171"><a href="#cb38-171" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_stack</span>()) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb38-172"><a href="#cb38-172" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Group of Seven Countries&quot;</span>,</span>
-<span id="cb38-173"><a href="#cb38-173" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Proportion of Votes&quot;</span>,</span>
-<span id="cb38-174"><a href="#cb38-174" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Voting Record of the G7&quot;</span>,</span>
-<span id="cb38-175"><a href="#cb38-175" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;Vote&quot;</span>) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb38-176"><a href="#cb38-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span>  <span class="co">#comment</span></span>
-<span id="cb38-177"><a href="#cb38-177" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb38-178"><a href="#cb38-178" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="co">#comment</span></span>
-<span id="cb38-179"><a href="#cb38-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-180"><a href="#cb38-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-181"><a href="#cb38-181" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Describe what the graph above demonstrates above UN voting records for the G7 </span></span>
-<span id="cb38-182"><a href="#cb38-182" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb38-183"><a href="#cb38-183" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb38-184"><a href="#cb38-184" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb38-185"><a href="#cb38-185" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb38-186"><a href="#cb38-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-187"><a href="#cb38-187" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Swap roles -- Developer becomes Coder, Coder becomes Developer! --&gt;</span></span>
-<span id="cb38-188"><a href="#cb38-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-189"><a href="#cb38-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-154"><a href="#cb38-154" aria-hidden="true" tabindex="-1"></a><span class="fu">### UN Votes</span></span>
+<span id="cb38-155"><a href="#cb38-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-156"><a href="#cb38-156" aria-hidden="true" tabindex="-1"></a>The first data set, <span class="in">`unvotes`</span> contains data on the <span class="in">`rcid`</span> which is the roll call id for the vote, the country/country code, and how the country voted. What can we learn from the data?  </span>
+<span id="cb38-157"><a href="#cb38-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-158"><a href="#cb38-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-159"><a href="#cb38-159" aria-hidden="true" tabindex="-1"></a>Comment on the following code, what is happening in each line?  One way to approach seeing what each line does is to highlight the code from before the <span class="in">`pipe`</span> of that line up to the data <span class="in">`unvotes`</span> and use <span class="in">`CTRL + ENTER`</span> to run just the highlighted lines.  </span>
+<span id="cb38-160"><a href="#cb38-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-163"><a href="#cb38-163" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-164"><a href="#cb38-164" aria-hidden="true" tabindex="-1"></a>unvotes <span class="sc">|&gt;</span> </span>
+<span id="cb38-165"><a href="#cb38-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(country, vote) <span class="sc">|&gt;</span> <span class="co">#comment</span></span>
+<span id="cb38-166"><a href="#cb38-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(country) <span class="sc">|&gt;</span> <span class="co">#comment</span></span>
+<span id="cb38-167"><a href="#cb38-167" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total =</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span> <span class="co">#comment </span></span>
+<span id="cb38-168"><a href="#cb38-168" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prop_vote =</span> n<span class="sc">/</span>total) <span class="sc">|&gt;</span> <span class="co">#comment</span></span>
+<span id="cb38-169"><a href="#cb38-169" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;United States&quot;</span>, <span class="st">&quot;Canada&quot;</span>, </span>
+<span id="cb38-170"><a href="#cb38-170" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;Germany&quot;</span>, <span class="st">&quot;France&quot;</span>,</span>
+<span id="cb38-171"><a href="#cb38-171" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;Italy&quot;</span>, <span class="st">&quot;Japan&quot;</span>,</span>
+<span id="cb38-172"><a href="#cb38-172" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;United Kingdom&quot;</span>)) <span class="sc">|&gt;</span> <span class="co">#comment</span></span>
+<span id="cb38-173"><a href="#cb38-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> country, <span class="at">y =</span> prop_vote, </span>
+<span id="cb38-174"><a href="#cb38-174" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> vote)) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb38-175"><a href="#cb38-175" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_stack</span>()) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb38-176"><a href="#cb38-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Group of Seven Countries&quot;</span>,</span>
+<span id="cb38-177"><a href="#cb38-177" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;Proportion of Votes&quot;</span>,</span>
+<span id="cb38-178"><a href="#cb38-178" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Voting Record of the G7&quot;</span>,</span>
+<span id="cb38-179"><a href="#cb38-179" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;Vote&quot;</span>) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb38-180"><a href="#cb38-180" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span>  <span class="co">#comment</span></span>
+<span id="cb38-181"><a href="#cb38-181" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.8</span>) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb38-182"><a href="#cb38-182" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="co">#comment</span></span>
+<span id="cb38-183"><a href="#cb38-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-184"><a href="#cb38-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-185"><a href="#cb38-185" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Describe what the graph above demonstrates above UN voting records for the G7 </span></span>
+<span id="cb38-186"><a href="#cb38-186" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb38-187"><a href="#cb38-187" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb38-188"><a href="#cb38-188" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb38-189"><a href="#cb38-189" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb38-190"><a href="#cb38-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-191"><a href="#cb38-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-192"><a href="#cb38-192" aria-hidden="true" tabindex="-1"></a><span class="fu">### Roll Calls</span></span>
+<span id="cb38-191"><a href="#cb38-191" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Swap roles -- Developer becomes Coder, Coder becomes Developer! --&gt;</span></span>
+<span id="cb38-192"><a href="#cb38-192" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-193"><a href="#cb38-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-194"><a href="#cb38-194" aria-hidden="true" tabindex="-1"></a>The second data set, <span class="in">`roll_calls`</span> has more information on the type of vote, the importance, whether it was a resolution, and date of the vote.  What does eh following code do?</span>
+<span id="cb38-194"><a href="#cb38-194" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-195"><a href="#cb38-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-198"><a href="#cb38-198" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-199"><a href="#cb38-199" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
-<span id="cb38-200"><a href="#cb38-200" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(short)</span>
-<span id="cb38-201"><a href="#cb38-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-202"><a href="#cb38-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-203"><a href="#cb38-203" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Description of code results</span></span>
-<span id="cb38-204"><a href="#cb38-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-205"><a href="#cb38-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-196"><a href="#cb38-196" aria-hidden="true" tabindex="-1"></a><span class="fu">### Roll Calls</span></span>
+<span id="cb38-197"><a href="#cb38-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-198"><a href="#cb38-198" aria-hidden="true" tabindex="-1"></a>The second data set, <span class="in">`roll_calls`</span> has more information on the type of vote, the importance, whether it was a resolution, and date of the vote.  What does eh following code do?</span>
+<span id="cb38-199"><a href="#cb38-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-202"><a href="#cb38-202" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-203"><a href="#cb38-203" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
+<span id="cb38-204"><a href="#cb38-204" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(short)</span>
+<span id="cb38-205"><a href="#cb38-205" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb38-206"><a href="#cb38-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-207"><a href="#cb38-207" aria-hidden="true" tabindex="-1"></a>We can use the individual data for <span class="in">`roll_calls`</span> to look at the number of votes per year over time.</span>
+<span id="cb38-207"><a href="#cb38-207" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Description of code results</span></span>
 <span id="cb38-208"><a href="#cb38-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-211"><a href="#cb38-211" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-212"><a href="#cb38-212" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
-<span id="cb38-213"><a href="#cb38-213" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span> <span class="co">#extracts the year from the date value and creates a new `year` column</span></span>
-<span id="cb38-214"><a href="#cb38-214" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(year) <span class="sc">|&gt;</span> <span class="co">#counts how many votes there were per year assuming each line is an single voting instance</span></span>
-<span id="cb38-215"><a href="#cb38-215" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> n)) <span class="sc">+</span></span>
-<span id="cb38-216"><a href="#cb38-216" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb38-217"><a href="#cb38-217" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Number of Votes&quot;</span>,</span>
-<span id="cb38-218"><a href="#cb38-218" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;UN Votes per Year&quot;</span>) <span class="sc">+</span></span>
-<span id="cb38-219"><a href="#cb38-219" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb38-220"><a href="#cb38-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-221"><a href="#cb38-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-222"><a href="#cb38-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-223"><a href="#cb38-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-224"><a href="#cb38-224" aria-hidden="true" tabindex="-1"></a>What information is missing from the above graphic that might be useful in understanding the issues the UN commonly votes on?</span>
+<span id="cb38-209"><a href="#cb38-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-210"><a href="#cb38-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-211"><a href="#cb38-211" aria-hidden="true" tabindex="-1"></a>We can use the individual data for <span class="in">`roll_calls`</span> to look at the number of votes per year over time.</span>
+<span id="cb38-212"><a href="#cb38-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-215"><a href="#cb38-215" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-216"><a href="#cb38-216" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
+<span id="cb38-217"><a href="#cb38-217" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span> <span class="co">#extracts the year from the date value and creates a new `year` column</span></span>
+<span id="cb38-218"><a href="#cb38-218" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(year) <span class="sc">|&gt;</span> <span class="co">#counts how many votes there were per year assuming each line is an single voting instance</span></span>
+<span id="cb38-219"><a href="#cb38-219" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb38-220"><a href="#cb38-220" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb38-221"><a href="#cb38-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Number of Votes&quot;</span>,</span>
+<span id="cb38-222"><a href="#cb38-222" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;UN Votes per Year&quot;</span>) <span class="sc">+</span></span>
+<span id="cb38-223"><a href="#cb38-223" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb38-224"><a href="#cb38-224" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb38-225"><a href="#cb38-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-226"><a href="#cb38-226" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert Answer Here</span></span>
+<span id="cb38-226"><a href="#cb38-226" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-227"><a href="#cb38-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-228"><a href="#cb38-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-228"><a href="#cb38-228" aria-hidden="true" tabindex="-1"></a>What information is missing from the above graphic that might be useful in understanding the issues the UN commonly votes on?</span>
 <span id="cb38-229"><a href="#cb38-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-230"><a href="#cb38-230" aria-hidden="true" tabindex="-1"></a>We could try and look at the short descriptions, <span class="in">`short`</span>, for each vote with the following code. </span>
-<span id="cb38-233"><a href="#cb38-233" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-234"><a href="#cb38-234" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
-<span id="cb38-235"><a href="#cb38-235" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(short)</span>
-<span id="cb38-236"><a href="#cb38-236" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-237"><a href="#cb38-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-238"><a href="#cb38-238" aria-hidden="true" tabindex="-1"></a>Does the above information help us understand the voting issues of the UN over time? Explain.</span>
-<span id="cb38-239"><a href="#cb38-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-240"><a href="#cb38-240" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert your answer here</span></span>
+<span id="cb38-230"><a href="#cb38-230" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert Answer Here</span></span>
+<span id="cb38-231"><a href="#cb38-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-232"><a href="#cb38-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-233"><a href="#cb38-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-234"><a href="#cb38-234" aria-hidden="true" tabindex="-1"></a>We could try and look at the short descriptions, <span class="in">`short`</span>, for each vote with the following code. </span>
+<span id="cb38-237"><a href="#cb38-237" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-238"><a href="#cb38-238" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
+<span id="cb38-239"><a href="#cb38-239" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(short)</span>
+<span id="cb38-240"><a href="#cb38-240" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb38-241"><a href="#cb38-241" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-242"><a href="#cb38-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-242"><a href="#cb38-242" aria-hidden="true" tabindex="-1"></a>Does the above information help us understand the voting issues of the UN over time? Explain.</span>
 <span id="cb38-243"><a href="#cb38-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-244"><a href="#cb38-244" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Swap roles -- Developer becomes Coder, Coder becomes Developer! --&gt;</span></span>
+<span id="cb38-244"><a href="#cb38-244" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert your answer here</span></span>
 <span id="cb38-245"><a href="#cb38-245" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-246"><a href="#cb38-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-247"><a href="#cb38-247" aria-hidden="true" tabindex="-1"></a><span class="fu">### Issues </span></span>
-<span id="cb38-248"><a href="#cb38-248" aria-hidden="true" tabindex="-1"></a>Finally we have the <span class="in">`issues`</span> data which provides a more general description for each vote on specific issues.  Note that not all issues are included in the data set, just the ones related to the 6 issues below:</span>
+<span id="cb38-247"><a href="#cb38-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-248"><a href="#cb38-248" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Swap roles -- Developer becomes Coder, Coder becomes Developer! --&gt;</span></span>
 <span id="cb38-249"><a href="#cb38-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-252"><a href="#cb38-252" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-253"><a href="#cb38-253" aria-hidden="true" tabindex="-1"></a>issues <span class="sc">|&gt;</span> </span>
-<span id="cb38-254"><a href="#cb38-254" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(issue)</span>
-<span id="cb38-255"><a href="#cb38-255" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-256"><a href="#cb38-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-257"><a href="#cb38-257" aria-hidden="true" tabindex="-1"></a>It would be helpful to use the <span class="in">`issues`</span> data with the <span class="in">`roll_calls`</span> data to be able to better understand the voting trends within the UN on at least these 6 issues. To do this, we need to join the data.  </span>
-<span id="cb38-258"><a href="#cb38-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-259"><a href="#cb38-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-250"><a href="#cb38-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-251"><a href="#cb38-251" aria-hidden="true" tabindex="-1"></a><span class="fu">### Issues </span></span>
+<span id="cb38-252"><a href="#cb38-252" aria-hidden="true" tabindex="-1"></a>Finally we have the <span class="in">`issues`</span> data which provides a more general description for each vote on specific issues.  Note that not all issues are included in the data set, just the ones related to the 6 issues below:</span>
+<span id="cb38-253"><a href="#cb38-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-256"><a href="#cb38-256" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-257"><a href="#cb38-257" aria-hidden="true" tabindex="-1"></a>issues <span class="sc">|&gt;</span> </span>
+<span id="cb38-258"><a href="#cb38-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(issue)</span>
+<span id="cb38-259"><a href="#cb38-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb38-260"><a href="#cb38-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-261"><a href="#cb38-261" aria-hidden="true" tabindex="-1"></a><span class="fu"># Votes Over Time  </span></span>
-<span id="cb38-262"><a href="#cb38-262" aria-hidden="true" tabindex="-1"></a>Now let&#39;s join our data together to get a better idea of how the UN has voted over time.  </span>
-<span id="cb38-263"><a href="#cb38-263" aria-hidden="true" tabindex="-1"></a>First, look at the number of rows in <span class="in">`issues`</span> and <span class="in">`roll_calls`</span> - do they match? What does this indicate?</span>
+<span id="cb38-261"><a href="#cb38-261" aria-hidden="true" tabindex="-1"></a>It would be helpful to use the <span class="in">`issues`</span> data with the <span class="in">`roll_calls`</span> data to be able to better understand the voting trends within the UN on at least these 6 issues. To do this, we need to join the data.  </span>
+<span id="cb38-262"><a href="#cb38-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-263"><a href="#cb38-263" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-264"><a href="#cb38-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-267"><a href="#cb38-267" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-268"><a href="#cb38-268" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(issues)</span>
-<span id="cb38-269"><a href="#cb38-269" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(roll_calls)</span>
-<span id="cb38-270"><a href="#cb38-270" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-271"><a href="#cb38-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-272"><a href="#cb38-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-273"><a href="#cb38-273" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert Answer Here</span></span>
-<span id="cb38-274"><a href="#cb38-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-265"><a href="#cb38-265" aria-hidden="true" tabindex="-1"></a><span class="fu"># Votes Over Time  </span></span>
+<span id="cb38-266"><a href="#cb38-266" aria-hidden="true" tabindex="-1"></a>Now let&#39;s join our data together to get a better idea of how the UN has voted over time.  </span>
+<span id="cb38-267"><a href="#cb38-267" aria-hidden="true" tabindex="-1"></a>First, look at the number of rows in <span class="in">`issues`</span> and <span class="in">`roll_calls`</span> - do they match? What does this indicate?</span>
+<span id="cb38-268"><a href="#cb38-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-271"><a href="#cb38-271" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-272"><a href="#cb38-272" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(issues)</span>
+<span id="cb38-273"><a href="#cb38-273" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(roll_calls)</span>
+<span id="cb38-274"><a href="#cb38-274" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb38-275"><a href="#cb38-275" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-276"><a href="#cb38-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-277"><a href="#cb38-277" aria-hidden="true" tabindex="-1"></a>Now let&#39;s try joining the <span class="in">`roll_calls`</span> with the <span class="in">`issues`</span> data.  Compare the following codes to join the data. Describe what each one does and how it differs from the others as a comment in the code chunk.  You might need to reference the slides or reading for this week.</span>
+<span id="cb38-277"><a href="#cb38-277" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert Answer Here</span></span>
 <span id="cb38-278"><a href="#cb38-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-281"><a href="#cb38-281" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-282"><a href="#cb38-282" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
-<span id="cb38-283"><a href="#cb38-283" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(issues, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) <span class="co">#description of join</span></span>
-<span id="cb38-284"><a href="#cb38-284" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-285"><a href="#cb38-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-288"><a href="#cb38-288" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-289"><a href="#cb38-289" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
-<span id="cb38-290"><a href="#cb38-290" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(issues, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) <span class="co">#description of join</span></span>
-<span id="cb38-291"><a href="#cb38-291" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-292"><a href="#cb38-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-295"><a href="#cb38-295" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-296"><a href="#cb38-296" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
-<span id="cb38-297"><a href="#cb38-297" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(issues, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) <span class="co">#description of join</span></span>
-<span id="cb38-298"><a href="#cb38-298" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-299"><a href="#cb38-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-302"><a href="#cb38-302" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-303"><a href="#cb38-303" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
-<span id="cb38-304"><a href="#cb38-304" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(issues, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) <span class="co">#description of join</span></span>
-<span id="cb38-305"><a href="#cb38-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-306"><a href="#cb38-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-307"><a href="#cb38-307" aria-hidden="true" tabindex="-1"></a>**If we are only interested in retaining the records associated with the `issues` labeled in our data, which join(s) should we use?**</span>
-<span id="cb38-308"><a href="#cb38-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-309"><a href="#cb38-309" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert answer here</span></span>
+<span id="cb38-279"><a href="#cb38-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-280"><a href="#cb38-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-281"><a href="#cb38-281" aria-hidden="true" tabindex="-1"></a>Now let&#39;s try joining the <span class="in">`roll_calls`</span> with the <span class="in">`issues`</span> data.  Compare the following codes to join the data. Describe what each one does and how it differs from the others as a comment in the code chunk.  You might need to reference the slides or reading for this week.</span>
+<span id="cb38-282"><a href="#cb38-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-285"><a href="#cb38-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-286"><a href="#cb38-286" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
+<span id="cb38-287"><a href="#cb38-287" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(issues, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) <span class="co">#description of join</span></span>
+<span id="cb38-288"><a href="#cb38-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-289"><a href="#cb38-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-292"><a href="#cb38-292" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-293"><a href="#cb38-293" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
+<span id="cb38-294"><a href="#cb38-294" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(issues, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) <span class="co">#description of join</span></span>
+<span id="cb38-295"><a href="#cb38-295" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-296"><a href="#cb38-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-299"><a href="#cb38-299" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-300"><a href="#cb38-300" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
+<span id="cb38-301"><a href="#cb38-301" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(issues, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) <span class="co">#description of join</span></span>
+<span id="cb38-302"><a href="#cb38-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-303"><a href="#cb38-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-306"><a href="#cb38-306" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-307"><a href="#cb38-307" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
+<span id="cb38-308"><a href="#cb38-308" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(issues, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) <span class="co">#description of join</span></span>
+<span id="cb38-309"><a href="#cb38-309" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb38-310"><a href="#cb38-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-311"><a href="#cb38-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-311"><a href="#cb38-311" aria-hidden="true" tabindex="-1"></a>**If we are only interested in retaining the records associated with the `issues` labeled in our data, which join(s) should we use?**</span>
 <span id="cb38-312"><a href="#cb38-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-313"><a href="#cb38-313" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-314"><a href="#cb38-314" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Swap roles -- Developer becomes Coder, Coder becomes Developer! --&gt;</span></span>
+<span id="cb38-313"><a href="#cb38-313" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert answer here</span></span>
+<span id="cb38-314"><a href="#cb38-314" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-315"><a href="#cb38-315" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-316"><a href="#cb38-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-317"><a href="#cb38-317" aria-hidden="true" tabindex="-1"></a>Now that we know how to join the data, we will use the following code to examine the the voting trends for three of the issues related to conflict/weapons. </span>
-<span id="cb38-318"><a href="#cb38-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-319"><a href="#cb38-319" aria-hidden="true" tabindex="-1"></a>Be sure to run the code via the green arrow on the code chunk, as the <span class="in">`case_when()`</span> code can get finicky sometimes and claim an error about a comma in the code when it doesn&#39;t exist.  *Comment on the code where indicated* and add your chosen join function</span>
-<span id="cb38-322"><a href="#cb38-322" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-323"><a href="#cb38-323" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
-<span id="cb38-324"><a href="#cb38-324" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(issues, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) <span class="sc">|&gt;</span>  <span class="co">#join roll_calls and issues so that just the votes related to the issues data are retained.</span></span>
-<span id="cb38-325"><a href="#cb38-325" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">issue =</span> <span class="fu">case_when</span>(</span>
-<span id="cb38-326"><a href="#cb38-326" aria-hidden="true" tabindex="-1"></a>    issue <span class="sc">==</span> <span class="st">&quot;Arms control and disarmament&quot;</span> <span class="sc">~</span> <span class="st">&quot;Arms Control&quot;</span>,</span>
-<span id="cb38-327"><a href="#cb38-327" aria-hidden="true" tabindex="-1"></a>    issue <span class="sc">==</span> <span class="st">&quot;Nuclear weapons and nuclear material&quot;</span> <span class="sc">~</span> <span class="st">&quot;Nuclear Weapons&quot;</span>,</span>
-<span id="cb38-328"><a href="#cb38-328" aria-hidden="true" tabindex="-1"></a>    issue <span class="sc">==</span> <span class="st">&quot;Palestinian conflict&quot;</span> <span class="sc">~</span> <span class="st">&quot;Palestinian Conflict&quot;</span>)) <span class="sc">|&gt;</span>   <span class="co">#what is happening in this mutate function?</span></span>
-<span id="cb38-329"><a href="#cb38-329" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(issue) <span class="sc">|&gt;</span> <span class="co">#drop NAs for values not defined in the previous line of code</span></span>
-<span id="cb38-330"><a href="#cb38-330" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span> <span class="co">#create a column `year` that contains the year value</span></span>
-<span id="cb38-331"><a href="#cb38-331" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(year, issue) <span class="sc">|&gt;</span> <span class="co">#what does this line do?</span></span>
-<span id="cb38-332"><a href="#cb38-332" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> n, <span class="at">group =</span> issue)) <span class="sc">+</span> <span class="co">#what does this line do?</span></span>
-<span id="cb38-333"><a href="#cb38-333" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> issue)) <span class="sc">+</span> <span class="co">#what does this line do?</span></span>
-<span id="cb38-334"><a href="#cb38-334" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Number of Votes&quot;</span>,</span>
-<span id="cb38-335"><a href="#cb38-335" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;United Nations Votes per Year&quot;</span>,</span>
-<span id="cb38-336"><a href="#cb38-336" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Conflict and Arms Related Votes&quot;</span>,</span>
-<span id="cb38-337"><a href="#cb38-337" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">&quot;Voting Issue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb38-338"><a href="#cb38-338" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb38-339"><a href="#cb38-339" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-340"><a href="#cb38-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-341"><a href="#cb38-341" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-342"><a href="#cb38-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-343"><a href="#cb38-343" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-344"><a href="#cb38-344" aria-hidden="true" tabindex="-1"></a>What do you notice? What do you wonder based on the graph created?</span>
-<span id="cb38-345"><a href="#cb38-345" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert Answer Here</span></span>
+<span id="cb38-317"><a href="#cb38-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-318"><a href="#cb38-318" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Swap roles -- Developer becomes Coder, Coder becomes Developer! --&gt;</span></span>
+<span id="cb38-319"><a href="#cb38-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-320"><a href="#cb38-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-321"><a href="#cb38-321" aria-hidden="true" tabindex="-1"></a>Now that we know how to join the data, we will use the following code to examine the the voting trends for three of the issues related to conflict/weapons. </span>
+<span id="cb38-322"><a href="#cb38-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-323"><a href="#cb38-323" aria-hidden="true" tabindex="-1"></a>Be sure to run the code via the green arrow on the code chunk, as the <span class="in">`case_when()`</span> code can get finicky sometimes and claim an error about a comma in the code when it doesn&#39;t exist.  *Comment on the code where indicated* and add your chosen join function</span>
+<span id="cb38-326"><a href="#cb38-326" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-327"><a href="#cb38-327" aria-hidden="true" tabindex="-1"></a>roll_calls <span class="sc">|&gt;</span> </span>
+<span id="cb38-328"><a href="#cb38-328" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(issues, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) <span class="sc">|&gt;</span>  <span class="co">#join roll_calls and issues so that just the votes related to the issues data are retained.</span></span>
+<span id="cb38-329"><a href="#cb38-329" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">issue =</span> <span class="fu">case_when</span>(</span>
+<span id="cb38-330"><a href="#cb38-330" aria-hidden="true" tabindex="-1"></a>    issue <span class="sc">==</span> <span class="st">&quot;Arms control and disarmament&quot;</span> <span class="sc">~</span> <span class="st">&quot;Arms Control&quot;</span>,</span>
+<span id="cb38-331"><a href="#cb38-331" aria-hidden="true" tabindex="-1"></a>    issue <span class="sc">==</span> <span class="st">&quot;Nuclear weapons and nuclear material&quot;</span> <span class="sc">~</span> <span class="st">&quot;Nuclear Weapons&quot;</span>,</span>
+<span id="cb38-332"><a href="#cb38-332" aria-hidden="true" tabindex="-1"></a>    issue <span class="sc">==</span> <span class="st">&quot;Palestinian conflict&quot;</span> <span class="sc">~</span> <span class="st">&quot;Palestinian Conflict&quot;</span>)) <span class="sc">|&gt;</span>   <span class="co">#what is happening in this mutate function?</span></span>
+<span id="cb38-333"><a href="#cb38-333" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(issue) <span class="sc">|&gt;</span> <span class="co">#drop NAs for values not defined in the previous line of code</span></span>
+<span id="cb38-334"><a href="#cb38-334" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span> <span class="co">#create a column `year` that contains the year value</span></span>
+<span id="cb38-335"><a href="#cb38-335" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(year, issue) <span class="sc">|&gt;</span> <span class="co">#what does this line do?</span></span>
+<span id="cb38-336"><a href="#cb38-336" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> n, <span class="at">group =</span> issue)) <span class="sc">+</span> <span class="co">#what does this line do?</span></span>
+<span id="cb38-337"><a href="#cb38-337" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> issue)) <span class="sc">+</span> <span class="co">#what does this line do?</span></span>
+<span id="cb38-338"><a href="#cb38-338" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Number of Votes&quot;</span>,</span>
+<span id="cb38-339"><a href="#cb38-339" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;United Nations Votes per Year&quot;</span>,</span>
+<span id="cb38-340"><a href="#cb38-340" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Conflict and Arms Related Votes&quot;</span>,</span>
+<span id="cb38-341"><a href="#cb38-341" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">&quot;Voting Issue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb38-342"><a href="#cb38-342" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb38-343"><a href="#cb38-343" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-344"><a href="#cb38-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-345"><a href="#cb38-345" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-346"><a href="#cb38-346" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-347"><a href="#cb38-347" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-348"><a href="#cb38-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-349"><a href="#cb38-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-350"><a href="#cb38-350" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Swap roles -- Developer becomes Coder, Coder becomes Developer! --&gt;</span></span>
+<span id="cb38-348"><a href="#cb38-348" aria-hidden="true" tabindex="-1"></a>What do you notice? What do you wonder based on the graph created?</span>
+<span id="cb38-349"><a href="#cb38-349" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert Answer Here</span></span>
+<span id="cb38-350"><a href="#cb38-350" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-351"><a href="#cb38-351" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-352"><a href="#cb38-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-353"><a href="#cb38-353" aria-hidden="true" tabindex="-1"></a><span class="fu"># Challenge 1: Joining all Data</span></span>
-<span id="cb38-354"><a href="#cb38-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-355"><a href="#cb38-355" aria-hidden="true" tabindex="-1"></a>We want to try and create the visualization (see instructions online).  To do this, though, we need information from all three data set, <span class="in">`unvotes`</span>, <span class="in">`issues`</span>, and <span class="in">`roll_calls`</span></span>
+<span id="cb38-353"><a href="#cb38-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-354"><a href="#cb38-354" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- Swap roles -- Developer becomes Coder, Coder becomes Developer! --&gt;</span></span>
+<span id="cb38-355"><a href="#cb38-355" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-356"><a href="#cb38-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-357"><a href="#cb38-357" aria-hidden="true" tabindex="-1"></a>We want to join all three data sets together, *maintaining only the votes for which we have identified the general issue* (e.g., Nuclear War, Arms, Economics, etc.).  We will save (assign) the data as `un_full`.  Fill in the best *join functions* to do maintain just the votes for which we have identified the general issue.</span>
+<span id="cb38-357"><a href="#cb38-357" aria-hidden="true" tabindex="-1"></a><span class="fu"># Challenge 1: Joining all Data</span></span>
 <span id="cb38-358"><a href="#cb38-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-361"><a href="#cb38-361" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-362"><a href="#cb38-362" aria-hidden="true" tabindex="-1"></a>un_full <span class="ot">&lt;-</span> unvotes <span class="sc">|&gt;</span> </span>
-<span id="cb38-363"><a href="#cb38-363" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(issues, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb38-364"><a href="#cb38-364" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(roll_calls, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) </span>
-<span id="cb38-365"><a href="#cb38-365" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-366"><a href="#cb38-366" aria-hidden="true" tabindex="-1"></a><span class="co">#View(un_full)</span></span>
-<span id="cb38-367"><a href="#cb38-367" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-368"><a href="#cb38-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-359"><a href="#cb38-359" aria-hidden="true" tabindex="-1"></a>We want to try and create the visualization (see instructions online).  To do this, though, we need information from all three data set, <span class="in">`unvotes`</span>, <span class="in">`issues`</span>, and <span class="in">`roll_calls`</span></span>
+<span id="cb38-360"><a href="#cb38-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-361"><a href="#cb38-361" aria-hidden="true" tabindex="-1"></a>We want to join all three data sets together, *maintaining only the votes for which we have identified the general issue* (e.g., Nuclear War, Arms, Economics, etc.).  We will save (assign) the data as `un_full`.  Fill in the best *join functions* to do maintain just the votes for which we have identified the general issue.</span>
+<span id="cb38-362"><a href="#cb38-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-365"><a href="#cb38-365" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-366"><a href="#cb38-366" aria-hidden="true" tabindex="-1"></a>un_full <span class="ot">&lt;-</span> unvotes <span class="sc">|&gt;</span> </span>
+<span id="cb38-367"><a href="#cb38-367" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(issues, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb38-368"><a href="#cb38-368" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(roll_calls, <span class="at">by =</span> <span class="st">&quot;rcid&quot;</span>) </span>
 <span id="cb38-369"><a href="#cb38-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-370"><a href="#cb38-370" aria-hidden="true" tabindex="-1"></a>Now, we are going to do some data cleaning.  Our goal is create a data set that includes the percentage of &quot;yes&quot; votes per country each year. Fill in the missing _________ with the correct verbs. We will call the data table <span class="in">`yes_votes`</span></span>
-<span id="cb38-373"><a href="#cb38-373" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-374"><a href="#cb38-374" aria-hidden="true" tabindex="-1"></a>yes_votes <span class="ot">&lt;-</span> un_full <span class="sc">|&gt;</span> </span>
-<span id="cb38-375"><a href="#cb38-375" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(country, issue, date, vote) <span class="sc">|&gt;</span>  <span class="co">#keep just the columns for country, issue, date, vote</span></span>
-<span id="cb38-376"><a href="#cb38-376" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span> <span class="co">#create a new variable called year</span></span>
-<span id="cb38-377"><a href="#cb38-377" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(country, year, issue) <span class="sc">|&gt;</span> <span class="co">#group country, year, issue together to prepare for subsequent analysis</span></span>
-<span id="cb38-378"><a href="#cb38-378" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(<span class="at">percent_yes =</span> <span class="fu">mean</span>(vote <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>)) <span class="sc">|&gt;</span> <span class="co">#calculate the proportion of yes votes</span></span>
-<span id="cb38-379"><a href="#cb38-379" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(<span class="at">issue =</span> <span class="fu">case_when</span>(</span>
-<span id="cb38-380"><a href="#cb38-380" aria-hidden="true" tabindex="-1"></a>    issue <span class="sc">==</span> <span class="st">&quot;Arms control and disarmament&quot;</span> <span class="sc">~</span> <span class="st">&quot;Arms Control&quot;</span>,</span>
-<span id="cb38-381"><a href="#cb38-381" aria-hidden="true" tabindex="-1"></a>    issue <span class="sc">==</span> <span class="st">&quot;Nuclear weapons and nuclear material&quot;</span> <span class="sc">~</span> <span class="st">&quot;Nuclear Weapons&quot;</span>,</span>
-<span id="cb38-382"><a href="#cb38-382" aria-hidden="true" tabindex="-1"></a>    issue <span class="sc">==</span> <span class="st">&quot;Palestinian conflict&quot;</span> <span class="sc">~</span> <span class="st">&quot;Palestinian Conflict&quot;</span>,</span>
-<span id="cb38-383"><a href="#cb38-383" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> issue)) <span class="co">#create/overwrite issue column with simpler values</span></span>
-<span id="cb38-384"><a href="#cb38-384" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-385"><a href="#cb38-385" aria-hidden="true" tabindex="-1"></a><span class="co">#View(yes_votes) #you can use this code to look at the table created</span></span>
-<span id="cb38-386"><a href="#cb38-386" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-387"><a href="#cb38-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-370"><a href="#cb38-370" aria-hidden="true" tabindex="-1"></a><span class="co">#View(un_full)</span></span>
+<span id="cb38-371"><a href="#cb38-371" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-372"><a href="#cb38-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-373"><a href="#cb38-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-374"><a href="#cb38-374" aria-hidden="true" tabindex="-1"></a>Now, we are going to do some data cleaning.  Our goal is create a data set that includes the percentage of &quot;yes&quot; votes per country each year. Fill in the missing _________ with the correct verbs. We will call the data table <span class="in">`yes_votes`</span></span>
+<span id="cb38-377"><a href="#cb38-377" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-378"><a href="#cb38-378" aria-hidden="true" tabindex="-1"></a>yes_votes <span class="ot">&lt;-</span> un_full <span class="sc">|&gt;</span> </span>
+<span id="cb38-379"><a href="#cb38-379" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(country, issue, date, vote) <span class="sc">|&gt;</span>  <span class="co">#keep just the columns for country, issue, date, vote</span></span>
+<span id="cb38-380"><a href="#cb38-380" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(date)) <span class="sc">|&gt;</span> <span class="co">#create a new variable called year</span></span>
+<span id="cb38-381"><a href="#cb38-381" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(country, year, issue) <span class="sc">|&gt;</span> <span class="co">#group country, year, issue together to prepare for subsequent analysis</span></span>
+<span id="cb38-382"><a href="#cb38-382" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(<span class="at">percent_yes =</span> <span class="fu">mean</span>(vote <span class="sc">==</span> <span class="st">&quot;yes&quot;</span>)) <span class="sc">|&gt;</span> <span class="co">#calculate the proportion of yes votes</span></span>
+<span id="cb38-383"><a href="#cb38-383" aria-hidden="true" tabindex="-1"></a>  <span class="fu">_________</span>(<span class="at">issue =</span> <span class="fu">case_when</span>(</span>
+<span id="cb38-384"><a href="#cb38-384" aria-hidden="true" tabindex="-1"></a>    issue <span class="sc">==</span> <span class="st">&quot;Arms control and disarmament&quot;</span> <span class="sc">~</span> <span class="st">&quot;Arms Control&quot;</span>,</span>
+<span id="cb38-385"><a href="#cb38-385" aria-hidden="true" tabindex="-1"></a>    issue <span class="sc">==</span> <span class="st">&quot;Nuclear weapons and nuclear material&quot;</span> <span class="sc">~</span> <span class="st">&quot;Nuclear Weapons&quot;</span>,</span>
+<span id="cb38-386"><a href="#cb38-386" aria-hidden="true" tabindex="-1"></a>    issue <span class="sc">==</span> <span class="st">&quot;Palestinian conflict&quot;</span> <span class="sc">~</span> <span class="st">&quot;Palestinian Conflict&quot;</span>,</span>
+<span id="cb38-387"><a href="#cb38-387" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> issue)) <span class="co">#create/overwrite issue column with simpler values</span></span>
 <span id="cb38-388"><a href="#cb38-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-389"><a href="#cb38-389" aria-hidden="true" tabindex="-1"></a>Now write the clean data <span class="in">`yes_votes`</span> to a new data set in the data folder so we don&#39;t have to rerun the above code again if we want to use the data in the future.  </span>
-<span id="cb38-390"><a href="#cb38-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-389"><a href="#cb38-389" aria-hidden="true" tabindex="-1"></a><span class="co">#View(yes_votes) #you can use this code to look at the table created</span></span>
+<span id="cb38-390"><a href="#cb38-390" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb38-391"><a href="#cb38-391" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-394"><a href="#cb38-394" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-395"><a href="#cb38-395" aria-hidden="true" tabindex="-1"></a><span class="fu">_____csv</span>(yes_votes, <span class="st">&quot;_____/yes_votes.csv&quot;</span>)</span>
-<span id="cb38-396"><a href="#cb38-396" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-397"><a href="#cb38-397" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-398"><a href="#cb38-398" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-399"><a href="#cb38-399" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-400"><a href="#cb38-400" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-401"><a href="#cb38-401" aria-hidden="true" tabindex="-1"></a>Now we can feed the <span class="in">`yes_votes`</span> transformed data table into your graphing code, but first we will want to focus on the United States and Canada. *Provide a comment to describe what each line of code is doing in the process*.  </span>
+<span id="cb38-392"><a href="#cb38-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-393"><a href="#cb38-393" aria-hidden="true" tabindex="-1"></a>Now write the clean data <span class="in">`yes_votes`</span> to a new data set in the data folder so we don&#39;t have to rerun the above code again if we want to use the data in the future.  </span>
+<span id="cb38-394"><a href="#cb38-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-395"><a href="#cb38-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-398"><a href="#cb38-398" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-399"><a href="#cb38-399" aria-hidden="true" tabindex="-1"></a><span class="fu">_____csv</span>(yes_votes, <span class="st">&quot;_____/yes_votes.csv&quot;</span>)</span>
+<span id="cb38-400"><a href="#cb38-400" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-401"><a href="#cb38-401" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-402"><a href="#cb38-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-405"><a href="#cb38-405" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-406"><a href="#cb38-406" aria-hidden="true" tabindex="-1"></a>yes_votes <span class="sc">|&gt;</span> </span>
-<span id="cb38-407"><a href="#cb38-407" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;United States&quot;</span>,<span class="st">&quot;Canada&quot;</span>)) <span class="sc">|&gt;</span> <span class="co"># your comment here</span></span>
-<span id="cb38-408"><a href="#cb38-408" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> percent_yes, <span class="at">color =</span> country)) <span class="sc">+</span> <span class="co"># your comment here</span></span>
-<span id="cb38-409"><a href="#cb38-409" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="co"># your comment here</span></span>
-<span id="cb38-410"><a href="#cb38-410" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_line(aes(group = country)) +</span></span>
-<span id="cb38-411"><a href="#cb38-411" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="co">#this fits a special model called a loess regression, a smooth line that fits the data</span></span>
-<span id="cb38-412"><a href="#cb38-412" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>issue) <span class="sc">+</span> <span class="co"># your comment here</span></span>
-<span id="cb38-413"><a href="#cb38-413" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span> <span class="co">#your comment here</span></span>
-<span id="cb38-414"><a href="#cb38-414" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb38-415"><a href="#cb38-415" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Percentage of &#39;Yes&#39; votes in the UN General Assembly&quot;</span>,</span>
-<span id="cb38-416"><a href="#cb38-416" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;1946 to 2015&quot;</span>,</span>
-<span id="cb38-417"><a href="#cb38-417" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;% Yes&quot;</span>,</span>
-<span id="cb38-418"><a href="#cb38-418" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
-<span id="cb38-419"><a href="#cb38-419" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Country&quot;</span></span>
-<span id="cb38-420"><a href="#cb38-420" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="co">#your comment here</span></span>
-<span id="cb38-421"><a href="#cb38-421" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb38-422"><a href="#cb38-422" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="sc">+</span> <span class="co">#your comment here </span></span>
-<span id="cb38-423"><a href="#cb38-423" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;turbo&quot;</span>) <span class="co">#your comment here</span></span>
-<span id="cb38-424"><a href="#cb38-424" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-425"><a href="#cb38-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-426"><a href="#cb38-426" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-427"><a href="#cb38-427" aria-hidden="true" tabindex="-1"></a>What do you notice about the voting records over time? </span>
-<span id="cb38-428"><a href="#cb38-428" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-429"><a href="#cb38-429" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;Insert Answer Here</span></span>
+<span id="cb38-403"><a href="#cb38-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-404"><a href="#cb38-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-405"><a href="#cb38-405" aria-hidden="true" tabindex="-1"></a>Now we can feed the <span class="in">`yes_votes`</span> transformed data table into your graphing code, but first we will want to focus on the United States and Canada. *Provide a comment to describe what each line of code is doing in the process*.  </span>
+<span id="cb38-406"><a href="#cb38-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-409"><a href="#cb38-409" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-410"><a href="#cb38-410" aria-hidden="true" tabindex="-1"></a>yes_votes <span class="sc">|&gt;</span> </span>
+<span id="cb38-411"><a href="#cb38-411" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;United States&quot;</span>,<span class="st">&quot;Canada&quot;</span>)) <span class="sc">|&gt;</span> <span class="co"># your comment here</span></span>
+<span id="cb38-412"><a href="#cb38-412" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> percent_yes, <span class="at">color =</span> country)) <span class="sc">+</span> <span class="co"># your comment here</span></span>
+<span id="cb38-413"><a href="#cb38-413" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="co"># your comment here</span></span>
+<span id="cb38-414"><a href="#cb38-414" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_line(aes(group = country)) +</span></span>
+<span id="cb38-415"><a href="#cb38-415" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="co">#this fits a special model called a loess regression, a smooth line that fits the data</span></span>
+<span id="cb38-416"><a href="#cb38-416" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>issue) <span class="sc">+</span> <span class="co"># your comment here</span></span>
+<span id="cb38-417"><a href="#cb38-417" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span> <span class="co">#your comment here</span></span>
+<span id="cb38-418"><a href="#cb38-418" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb38-419"><a href="#cb38-419" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Percentage of &#39;Yes&#39; votes in the UN General Assembly&quot;</span>,</span>
+<span id="cb38-420"><a href="#cb38-420" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;1946 to 2015&quot;</span>,</span>
+<span id="cb38-421"><a href="#cb38-421" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;% Yes&quot;</span>,</span>
+<span id="cb38-422"><a href="#cb38-422" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb38-423"><a href="#cb38-423" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Country&quot;</span></span>
+<span id="cb38-424"><a href="#cb38-424" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="co">#your comment here</span></span>
+<span id="cb38-425"><a href="#cb38-425" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb38-426"><a href="#cb38-426" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="sc">+</span> <span class="co">#your comment here </span></span>
+<span id="cb38-427"><a href="#cb38-427" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;turbo&quot;</span>) <span class="co">#your comment here</span></span>
+<span id="cb38-428"><a href="#cb38-428" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-429"><a href="#cb38-429" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-430"><a href="#cb38-430" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-431"><a href="#cb38-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-431"><a href="#cb38-431" aria-hidden="true" tabindex="-1"></a>What do you notice about the voting records over time? </span>
 <span id="cb38-432"><a href="#cb38-432" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-433"><a href="#cb38-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-433"><a href="#cb38-433" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;Insert Answer Here</span></span>
 <span id="cb38-434"><a href="#cb38-434" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-435"><a href="#cb38-435" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-436"><a href="#cb38-436" aria-hidden="true" tabindex="-1"></a><span class="fu"># Challenge 2: Adding more data</span></span>
-<span id="cb38-437"><a href="#cb38-437" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You do not need to complete this section unless you want to! It is a challenge problem to help you further apply what you did above. --&gt;</span></span>
-<span id="cb38-438"><a href="#cb38-438" aria-hidden="true" tabindex="-1"></a>After your instructor created the above plot, she became curious about how politics might impact the UN Voting record for the United States since UN Ambassador is a presidential appointment. So your instructor started searching for a data set of US presidents, their years in office, and their political affiliation.  She found a data set on Kaggle.com and removed the information prior to 1940 (because the dates were coded funny and it was causing problems). She saved the data as <span class="in">`us_presidents.csv`</span> and imported it into the project.</span>
+<span id="cb38-436"><a href="#cb38-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-437"><a href="#cb38-437" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-438"><a href="#cb38-438" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-439"><a href="#cb38-439" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-442"><a href="#cb38-442" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-443"><a href="#cb38-443" aria-hidden="true" tabindex="-1"></a>president <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/us_presidents.csv&quot;</span>)</span>
-<span id="cb38-444"><a href="#cb38-444" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-445"><a href="#cb38-445" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-446"><a href="#cb38-446" aria-hidden="true" tabindex="-1"></a>She realized that her data only had the start/end dates for each president and she wanted a data set that filled in the missing years and political party for the president in that time period.  After much googling and reading Stack Overflow, found two functions she did not know about called <span class="in">`complete()`</span> and <span class="in">`fill()`</span> to fill in the missing years and party affiliations  </span>
-<span id="cb38-447"><a href="#cb38-447" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-448"><a href="#cb38-448" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-451"><a href="#cb38-451" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-452"><a href="#cb38-452" aria-hidden="true" tabindex="-1"></a>politics_year <span class="ot">&lt;-</span> president <span class="sc">|&gt;</span> </span>
-<span id="cb38-453"><a href="#cb38-453" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">start =</span> lubridate<span class="sc">::</span><span class="fu">mdy</span>(start),  <span class="co">#formats date correctly</span></span>
-<span id="cb38-454"><a href="#cb38-454" aria-hidden="true" tabindex="-1"></a>           <span class="at">start_year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(start)) <span class="sc">|&gt;</span> <span class="co">#pulls out year</span></span>
-<span id="cb38-455"><a href="#cb38-455" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(start_year <span class="sc">&gt;</span> <span class="dv">1940</span>) <span class="sc">|&gt;</span>  <span class="co">#removes data before 1940 since there was no UN</span></span>
-<span id="cb38-456"><a href="#cb38-456" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start_year, party) <span class="sc">|&gt;</span>   <span class="co">#pulls out just the variables of interest</span></span>
-<span id="cb38-457"><a href="#cb38-457" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(<span class="at">start_year =</span> <span class="fu">seq</span>(<span class="fu">min</span>(start_year), <span class="dv">2020</span>, <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span> <span class="co">#fill in missing years</span></span>
-<span id="cb38-458"><a href="#cb38-458" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(party) <span class="co">#fill in missing party affiliations for years</span></span>
-<span id="cb38-459"><a href="#cb38-459" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-460"><a href="#cb38-460" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-461"><a href="#cb38-461" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-462"><a href="#cb38-462" aria-hidden="true" tabindex="-1"></a>Next, your instructor took the <span class="in">`yes_votes`</span> data and filtered out just the United States data and then joined by year to add the party affiliation of the president for each year of UN votes.  To create the visualization with the smoothed model, but color by party affiliation, she had to add a new column called <span class="in">`predict`</span> that fit the model first instead of using <span class="in">`geom_smooth()`</span>.  </span>
-<span id="cb38-463"><a href="#cb38-463" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-464"><a href="#cb38-464" aria-hidden="true" tabindex="-1"></a>Comment the code below: </span>
-<span id="cb38-467"><a href="#cb38-467" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb38-468"><a href="#cb38-468" aria-hidden="true" tabindex="-1"></a>yes_votes <span class="sc">|&gt;</span> </span>
-<span id="cb38-469"><a href="#cb38-469" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">&quot;United States&quot;</span>) <span class="sc">|&gt;</span>  <span class="co">#comment</span></span>
-<span id="cb38-470"><a href="#cb38-470" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(politics_year, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;start_year&quot;</span>)) <span class="sc">|&gt;</span> <span class="co">#comment</span></span>
-<span id="cb38-471"><a href="#cb38-471" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(issue) <span class="sc">|&gt;</span>  <span class="co">#comment</span></span>
-<span id="cb38-472"><a href="#cb38-472" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predict =</span> <span class="fu">predict</span>(<span class="fu">loess</span>(percent_yes<span class="sc">~</span>year))) <span class="sc">|&gt;</span>  <span class="co">#comment</span></span>
-<span id="cb38-473"><a href="#cb38-473" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">color =</span> party, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb38-474"><a href="#cb38-474" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> percent_yes),<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb38-475"><a href="#cb38-475" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> predict)) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb38-476"><a href="#cb38-476" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>issue) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb38-477"><a href="#cb38-477" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb38-478"><a href="#cb38-478" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb38-479"><a href="#cb38-479" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Percentage of &#39;Yes&#39; votes in the UN General Assembly&quot;</span>,</span>
-<span id="cb38-480"><a href="#cb38-480" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;1946 to 2015&quot;</span>,</span>
-<span id="cb38-481"><a href="#cb38-481" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;% Yes&quot;</span>,</span>
-<span id="cb38-482"><a href="#cb38-482" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
-<span id="cb38-483"><a href="#cb38-483" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Country&quot;</span></span>
-<span id="cb38-484"><a href="#cb38-484" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb38-485"><a href="#cb38-485" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb38-486"><a href="#cb38-486" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb38-487"><a href="#cb38-487" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)  <span class="co">#comment</span></span>
-<span id="cb38-488"><a href="#cb38-488" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb38-489"><a href="#cb38-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-490"><a href="#cb38-490" aria-hidden="true" tabindex="-1"></a>What do you notice? What do you wonder?</span>
-<span id="cb38-491"><a href="#cb38-491" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-492"><a href="#cb38-492" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert your answer</span></span>
+<span id="cb38-440"><a href="#cb38-440" aria-hidden="true" tabindex="-1"></a><span class="fu"># Challenge 2: Adding more data</span></span>
+<span id="cb38-441"><a href="#cb38-441" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You do not need to complete this section unless you want to! It is a challenge problem to help you further apply what you did above. --&gt;</span></span>
+<span id="cb38-442"><a href="#cb38-442" aria-hidden="true" tabindex="-1"></a>After your instructor created the above plot, she became curious about how politics might impact the UN Voting record for the United States since UN Ambassador is a presidential appointment. So your instructor started searching for a data set of US presidents, their years in office, and their political affiliation.  She found a data set on Kaggle.com and removed the information prior to 1940 (because the dates were coded funny and it was causing problems). She saved the data as <span class="in">`us_presidents.csv`</span> and imported it into the project.</span>
+<span id="cb38-443"><a href="#cb38-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-446"><a href="#cb38-446" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-447"><a href="#cb38-447" aria-hidden="true" tabindex="-1"></a>president <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/us_presidents.csv&quot;</span>)</span>
+<span id="cb38-448"><a href="#cb38-448" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-449"><a href="#cb38-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-450"><a href="#cb38-450" aria-hidden="true" tabindex="-1"></a>She realized that her data only had the start/end dates for each president and she wanted a data set that filled in the missing years and political party for the president in that time period.  After much googling and reading Stack Overflow, found two functions she did not know about called <span class="in">`complete()`</span> and <span class="in">`fill()`</span> to fill in the missing years and party affiliations  </span>
+<span id="cb38-451"><a href="#cb38-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-452"><a href="#cb38-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-455"><a href="#cb38-455" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-456"><a href="#cb38-456" aria-hidden="true" tabindex="-1"></a>politics_year <span class="ot">&lt;-</span> president <span class="sc">|&gt;</span> </span>
+<span id="cb38-457"><a href="#cb38-457" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">start =</span> lubridate<span class="sc">::</span><span class="fu">mdy</span>(start),  <span class="co">#formats date correctly</span></span>
+<span id="cb38-458"><a href="#cb38-458" aria-hidden="true" tabindex="-1"></a>           <span class="at">start_year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(start)) <span class="sc">|&gt;</span> <span class="co">#pulls out year</span></span>
+<span id="cb38-459"><a href="#cb38-459" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(start_year <span class="sc">&gt;</span> <span class="dv">1940</span>) <span class="sc">|&gt;</span>  <span class="co">#removes data before 1940 since there was no UN</span></span>
+<span id="cb38-460"><a href="#cb38-460" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start_year, party) <span class="sc">|&gt;</span>   <span class="co">#pulls out just the variables of interest</span></span>
+<span id="cb38-461"><a href="#cb38-461" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(<span class="at">start_year =</span> <span class="fu">seq</span>(<span class="fu">min</span>(start_year), <span class="dv">2020</span>, <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span> <span class="co">#fill in missing years</span></span>
+<span id="cb38-462"><a href="#cb38-462" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(party) <span class="co">#fill in missing party affiliations for years</span></span>
+<span id="cb38-463"><a href="#cb38-463" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb38-464"><a href="#cb38-464" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-465"><a href="#cb38-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-466"><a href="#cb38-466" aria-hidden="true" tabindex="-1"></a>Next, your instructor took the <span class="in">`yes_votes`</span> data and filtered out just the United States data and then joined by year to add the party affiliation of the president for each year of UN votes.  To create the visualization with the smoothed model, but color by party affiliation, she had to add a new column called <span class="in">`predict`</span> that fit the model first instead of using <span class="in">`geom_smooth()`</span>.  </span>
+<span id="cb38-467"><a href="#cb38-467" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-468"><a href="#cb38-468" aria-hidden="true" tabindex="-1"></a>Comment the code below: </span>
+<span id="cb38-471"><a href="#cb38-471" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb38-472"><a href="#cb38-472" aria-hidden="true" tabindex="-1"></a>yes_votes <span class="sc">|&gt;</span> </span>
+<span id="cb38-473"><a href="#cb38-473" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">&quot;United States&quot;</span>) <span class="sc">|&gt;</span>  <span class="co">#comment</span></span>
+<span id="cb38-474"><a href="#cb38-474" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(politics_year, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;start_year&quot;</span>)) <span class="sc">|&gt;</span> <span class="co">#comment</span></span>
+<span id="cb38-475"><a href="#cb38-475" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(issue) <span class="sc">|&gt;</span>  <span class="co">#comment</span></span>
+<span id="cb38-476"><a href="#cb38-476" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predict =</span> <span class="fu">predict</span>(<span class="fu">loess</span>(percent_yes<span class="sc">~</span>year))) <span class="sc">|&gt;</span>  <span class="co">#comment</span></span>
+<span id="cb38-477"><a href="#cb38-477" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">color =</span> party, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb38-478"><a href="#cb38-478" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> percent_yes),<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb38-479"><a href="#cb38-479" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> predict)) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb38-480"><a href="#cb38-480" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>issue) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb38-481"><a href="#cb38-481" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb38-482"><a href="#cb38-482" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb38-483"><a href="#cb38-483" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Percentage of &#39;Yes&#39; votes in the UN General Assembly&quot;</span>,</span>
+<span id="cb38-484"><a href="#cb38-484" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;1946 to 2015&quot;</span>,</span>
+<span id="cb38-485"><a href="#cb38-485" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;% Yes&quot;</span>,</span>
+<span id="cb38-486"><a href="#cb38-486" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb38-487"><a href="#cb38-487" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Country&quot;</span></span>
+<span id="cb38-488"><a href="#cb38-488" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb38-489"><a href="#cb38-489" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb38-490"><a href="#cb38-490" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb38-491"><a href="#cb38-491" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)  <span class="co">#comment</span></span>
+<span id="cb38-492"><a href="#cb38-492" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb38-493"><a href="#cb38-493" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-494"><a href="#cb38-494" aria-hidden="true" tabindex="-1"></a>What do you notice? What do you wonder?</span>
+<span id="cb38-495"><a href="#cb38-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-496"><a href="#cb38-496" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert your answer</span></span>
+<span id="cb38-497"><a href="#cb38-497" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

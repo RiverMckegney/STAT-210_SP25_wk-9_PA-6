@@ -138,6 +138,10 @@ issues <- read_csv("data/issues.csv")
 ## Data Exploration
 Our goal today is to explore how various members (countries) in the United Nations vote. We have three data sets, what can we determine from each data set separately?
 
+Response by River Mckegney:
+
+> With the 'unvotes' dataset we can evaluate location data (country level) associated with votes and also a countries vote type.
+With the 'roll_calls' dataset we can suss out the datetime and information about vote meetings held by the United Nations. The 'issues' dataset contains pertinent information about the vote topic.
 
 ### UN Votes
 

@@ -245,7 +245,7 @@ roll_calls |>
 
 Does the above information help us understand the voting issues of the UN over time? Explain.
 
-> Insert your answer here
+> Yes, but not quite. The code above counts the total number of discrete vote topics, but does not divy out these counts across the years that they occured. This filtering process could be easily used with the graph above (and perhaps another grouping or filtering function) to illustrate how UN voting counts on specific issues change over time.
 
 
 

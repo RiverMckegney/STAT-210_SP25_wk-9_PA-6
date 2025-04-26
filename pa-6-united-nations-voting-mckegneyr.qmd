@@ -147,34 +147,39 @@ With the 'roll_calls' dataset we can suss out the datetime and information about
 
 The first data set, `unvotes` contains data on the `rcid` which is the roll call id for the vote, the country/country code, and how the country voted. What can we learn from the data?  
 
+Response by River Mckegney
+
+> We can learn how each country decidided to vote about a specific issue, and what similarities or differences exist between countries representitive views.
+
 
 Comment on the following code, what is happening in each line?  One way to approach seeing what each line does is to highlight the code from before the `pipe` of that line up to the data `unvotes` and use `CTRL + ENTER` to run just the highlighted lines.  
 
 ```{r}
 unvotes |> 
-  count(country, vote) |> #comment
-  group_by(country) |> #comment
-  mutate(total = sum(n)) |> #comment 
-  mutate(prop_vote = n/total) |> #comment
+  count(country, vote) |> # counts total vote types for each country
+  group_by(country) |> # groups next calculation by country
+  mutate(total = sum(n)) |> # Counts all votes from all types for each  country
+  mutate(prop_vote = n/total) |> # Calculates proportion of each vote type
   filter(country %in% c("United States", "Canada", 
                         "Germany", "France",
                         "Italy", "Japan",
-                        "United Kingdom")) |> #comment
+                        "United Kingdom")) |> # Selects variables from these specific countries
   ggplot(aes(x = country, y = prop_vote, 
-             fill = vote)) + #comment
-  geom_col(position = position_stack()) + #comment
+             fill = vote)) + # Creates a plot with x-axis as countries and y-axis as proportions of votes
+  geom_col(position = position_stack()) + # Creates a stacked bar chart
   labs(x = "Group of Seven Countries",
        y = "Proportion of Votes",
        title = "Voting Record of the G7",
-       fill = "Vote") + #comment
-  theme_minimal() +  #comment
-  scale_fill_viridis_d(end = 0.8) + #comment
-  coord_flip() #comment
+       fill = "Vote") + # Labels each axis, and color codes bars by vote type
+  theme_minimal() +  # Adds a minimal theme to graph
+  scale_fill_viridis_d(end = 0.8) + # Adds specific color palette to chart
+  coord_flip() # Flips the axes and stacked bar plot orientation
 ```
 
-> Describe what the graph above demonstrates above UN voting records for the G7 
-  
-  
+Describe what the graph above demonstrates above UN voting records for the G7 
+
+Response by River Mckegney
+>  From the barplot we can see that from these seven selected couintries, looking at the historical extent of all UN voting that happend (in the dataset), The United States contains the highest count for voting "no" and Germany has the highest count for voting "yes". 
   
   
 

@@ -155,6 +155,10 @@ Response by River Mckegney
 Comment on the following code, what is happening in each line?  One way to approach seeing what each line does is to highlight the code from before the `pipe` of that line up to the data `unvotes` and use `CTRL + ENTER` to run just the highlighted lines.  
 
 ```{r}
+#| label: unvotes barplot
+#| echo: true
+#| output: true
+
 unvotes |> 
   count(country, vote) |> # counts total vote types for each country
   group_by(country) |> # groups next calculation by country
@@ -193,6 +197,10 @@ Response by River Mckegney
 The second data set, `roll_calls` has more information on the type of vote, the importance, whether it was a resolution, and date of the vote.  What does the following code do?
 
 ```{r}
+#| label: Unique values of short col in roll_calls
+#| echo: true
+#| output: true
+
 roll_calls |> 
   distinct(short)
 ```
@@ -207,6 +215,10 @@ Response by River Mckegney:
 We can use the individual data for `roll_calls` to look at the number of votes per year over time.
 
 ```{r}
+#| label: 
+#| echo: true
+#| output: true
+
 roll_calls |> 
   mutate(year = lubridate::year(date)) |> #extracts the year from the date value and creates a new `year` column
   count(year) |> #counts how many votes there were per year assuming each line is an single voting instance
@@ -221,7 +233,7 @@ roll_calls |>
 
 What information is missing from the above graphic that might be useful in understanding the issues the UN commonly votes on?
 
-> Insert Answer Here
+> The graph is missing information about the voting topics, most appropriately the short descriptions associated with each UN ballot event in the 'short' column of the roll_calls dataset.
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "United Nations Voting Records"
-author: "The names of your group members go here!"
+author: "River Mckegney"
 format: 
   html: default
   gfm: default
@@ -16,7 +16,7 @@ execute:
 ---
 
 ```{r}
-#| label: setup
+#| label: load packages
 #| include: false
 library(tidyverse)
 library(lubridate) #should already be installed as a part of the tidyverse, we will talk more about this in Week 10
@@ -76,7 +76,12 @@ Here is each data set and its description (you might want to look at the Tidy Tu
 
 
 ```{r}
-unvotes <- read_csv("data/unvotes.csv")
+#| label: Read in dataset unvotes
+#| echo: true
+#| output: false
+
+# Call dataset unvotes as a tibble
+unvotes <- read_csv("data/unvotes.csv") 
 ```
 
 
@@ -97,8 +102,12 @@ unvotes <- read_csv("data/unvotes.csv")
 
 
 ```{r}
-#edit to read in roll_calls
-roll_calls <- read_csv("__________")
+#| label: Read in dataset roll_calls
+#| echo: true
+#| output: false
+
+# Call dataset roll_calls as a tibble
+roll_calls <- read_csv("data/roll_calls.csv") 
 ```
 
 
@@ -112,8 +121,12 @@ roll_calls <- read_csv("__________")
 |issue      |integer   | Descriptive issue name |
 
 ```{r}
-#edit to read in issues
+#| label: Read in dataset issues
+#| echo: true
+#| output: false
 
+# Call dataset issues as a tibble
+issues <- read_csv("data/issues.csv")
 ```
 
 

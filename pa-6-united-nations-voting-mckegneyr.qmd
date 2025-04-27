@@ -330,16 +330,17 @@ Now that we know how to join the data, we will use the following code to examine
 Be sure to run the code via the green arrow on the code chunk, as the `case_when()` code can get finicky sometimes and claim an error about a comma in the code when it doesn't exist.  *Comment on the code where indicated* and add your chosen join function
 ```{r}
 roll_calls |> 
-  _________(issues, by = "rcid") |>  #join roll_calls and issues so that just the votes related to the issues data are retained.
+  right_join(issues, by = "rcid") |>  #join roll_calls and issues so that just the votes related to the issues data are retained.
   mutate(issue = case_when(
     issue == "Arms control and disarmament" ~ "Arms Control",
     issue == "Nuclear weapons and nuclear material" ~ "Nuclear Weapons",
-    issue == "Palestinian conflict" ~ "Palestinian Conflict")) |>   #what is happening in this mutate function?
+    issue == "Palestinian conflict" ~ "Palestinian Conflict")) |>   # Here we select and rename each of the variables or topics of interest within the issue column, which effectively bins or groups subjects into a neater format for graphic display
+  
   drop_na(issue) |> #drop NAs for values not defined in the previous line of code
   mutate(year = lubridate::year(date)) |> #create a column `year` that contains the year value
-  count(year, issue) |> #what does this line do?
-  ggplot(aes(x = year, y = n, group = issue)) + #what does this line do?
-  geom_line(aes(color = issue)) + #what does this line do?
+  count(year, issue) |> # Counts the number of votes of a particular issue for a given year
+  ggplot(aes(x = year, y = n, group = issue)) + # Creates a graph and id's axes
+  geom_line(aes(color = issue)) + # Makes line chart and color codes by issue variables
   labs(x = "Year", y = "Number of Votes",
        title = "United Nations Votes per Year",
        subtitle = "Conflict and Arms Related Votes",
@@ -351,7 +352,9 @@ roll_calls |>
 
 
 What do you notice? What do you wonder based on the graph created?
-> Insert Answer Here
+
+Response by River Mckegney
+> I notice that the trendlines for these debated topics tend to correlate or set eachother off. So for spike around 1985 in arms controls there is also lots of voting going on about the palestian conflict and nuclear weapons. Based on the graph I also notice nuclear weapons is the topic that generally tends to display the highest voting counts. And, on average voting has increased with time. 
 
 
 

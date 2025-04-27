@@ -139,6 +139,7 @@ issues <- read_csv("data/issues.csv")
 Our goal today is to explore how various members (countries) in the United Nations vote. We have three data sets, what can we determine from each data set separately?
 
 Response by River Mckegney
+
 > With the 'unvotes' dataset we can evaluate location data (country level) associated with votes and also a countries vote type.
 With the 'roll_calls' dataset we can suss out the datetime and information about vote meetings held by the United Nations. The 'issues' dataset contains pertinent information about the vote topic.
 
@@ -147,6 +148,7 @@ With the 'roll_calls' dataset we can suss out the datetime and information about
 The first data set, `unvotes` contains data on the `rcid` which is the roll call id for the vote, the country/country code, and how the country voted. What can we learn from the data?  
 
 Response by River Mckegney
+
 > We can learn how each country decidided to vote about a specific issue, and what similarities or differences exist between countries representitive views.
 
 
@@ -181,6 +183,7 @@ unvotes |>
 Describe what the graph above demonstrates above UN voting records for the G7 
 
 Response by River Mckegney
+
 >  From the barplot we can see that from these seven selected couintries, looking at the historical extent of all UN voting that happend (in the dataset), The United States contains the highest count for voting "no" and Germany has the highest count for voting "yes". 
   
   
@@ -206,6 +209,7 @@ roll_calls |>
 Description of code results
 
 Response by River Mckegney
+
 > The code block above displays the unique variables (short response descriptions) for the voting topics being decided upon. 
 
 
@@ -213,7 +217,7 @@ Response by River Mckegney
 We can use the individual data for `roll_calls` to look at the number of votes per year over time.
 
 ```{r}
-#| label: 
+#| label: roll_calls line chart
 #| echo: true
 #| output: true
 
@@ -232,12 +236,17 @@ roll_calls |>
 What information is missing from the above graphic that might be useful in understanding the issues the UN commonly votes on?
 
 Response by River Mckegney
+
 > The graph is missing information about the voting topics, most appropriately the short descriptions associated with each UN ballot event in the 'short' column of the roll_calls dataset.
 
 
 
 We could try and look at the short descriptions, `short`, for each vote with the following code. 
 ```{r}
+#| label: count function for roll_calls
+#| echo: true
+#| output: true
+
 roll_calls |> 
   count(short)
 ```
@@ -245,6 +254,7 @@ roll_calls |>
 Does the above information help us understand the voting issues of the UN over time? Explain.
 
 Response by River Mckegney
+
 > Yes, but not quite. The code above counts the total number of discrete vote topics, but does not divy out these counts across the years that they occured. This filtering process could be easily used with the graph above (and perhaps another grouping or filtering function) to illustrate how UN voting counts on specific issues change over time.
 
 
@@ -256,6 +266,10 @@ Response by River Mckegney
 Finally we have the `issues` data which provides a more general description for each vote on specific issues.  Note that not all issues are included in the data set, just the ones related to the 6 issues below:
 
 ```{r}
+#| label: count function for issues
+#| echo: true
+#| output: true
+
 issues |> 
   count(issue)
 ```
@@ -269,11 +283,16 @@ Now let's join our data together to get a better idea of how the UN has voted ov
 First, look at the number of rows in `issues` and `roll_calls` - do they match? What does this indicate?
 
 ```{r}
+#| label: row counts for issues and roll_calls
+#| echo: true
+#| output: true
+
 dim(issues)
 dim(roll_calls)
 ```
 
 Response by River Mckegney
+
 > The number of rows do not match between 'issues' (5745 rows) and 'roll_calls' (6202 rows). This indicates that the issues dataset does not contain all the observations (the historical record of votes data) that roll_calls does.
 
 
@@ -281,6 +300,10 @@ Response by River Mckegney
 Now let's try joining the `roll_calls` with the `issues` data. Compare the following codes to join the data. Describe what each one does and how it differs from the others as a comment in the code chunk.  You might need to reference the slides or reading for this week.
 
 ```{r}
+#| label: left joins
+#| echo: true
+#| output: true
+
 roll_calls |> 
   left_join(issues, by = "rcid") 
 
@@ -290,6 +313,10 @@ roll_calls |>
 ```
 
 ```{r}
+#| label: right joins
+#| echo: true
+#| output: true
+
 roll_calls |> 
   right_join(issues, by = "rcid") 
 
@@ -299,6 +326,10 @@ roll_calls |>
 ```
 
 ```{r}
+#| label: full joins
+#| echo: true
+#| output: true
+
 roll_calls |> 
   full_join(issues, by = "rcid") 
 
@@ -308,6 +339,10 @@ roll_calls |>
 ```
 
 ```{r}
+#| label: inner joins
+#| echo: true
+#| output: true
+
 roll_calls |> 
   inner_join(issues, by = "rcid") 
 
@@ -317,6 +352,7 @@ roll_calls |>
 **If we are only interested in retaining the records associated with the `issues` labeled in our data, which join(s) should we use?**
 
 Response by River Mckegney
+
 > With this format (assuming roll_calls as left df, x), we could use a right join to retain all rows in issues (removes unmatched rows from roll_calls), or a full join to keep rows from both dataframes. 
 
 
@@ -329,6 +365,10 @@ Now that we know how to join the data, we will use the following code to examine
 
 Be sure to run the code via the green arrow on the code chunk, as the `case_when()` code can get finicky sometimes and claim an error about a comma in the code when it doesn't exist.  *Comment on the code where indicated* and add your chosen join function
 ```{r}
+#| label: line graph of UN votes per year 
+#| echo: true
+#| output: true
+
 roll_calls |> 
   right_join(issues, by = "rcid") |>  #join roll_calls and issues so that just the votes related to the issues data are retained.
   mutate(issue = case_when(
@@ -354,6 +394,7 @@ roll_calls |>
 What do you notice? What do you wonder based on the graph created?
 
 Response by River Mckegney
+
 > I notice that the trendlines for these debated topics tend to correlate or set eachother off. So for spike around 1985 in arms controls there is also lots of voting going on about the palestian conflict and nuclear weapons. Based on the graph I also notice nuclear weapons is the topic that generally tends to display the highest voting counts. And, on average voting has increased with time. 
 
 
@@ -369,6 +410,10 @@ We want to try and create the visualization (see instructions online).  To do th
 We want to join all three data sets together, *maintaining only the votes for which we have identified the general issue* (e.g., Nuclear War, Arms, Economics, etc.).  We will save (assign) the data as `un_full`.  Fill in the best *join functions* to do maintain just the votes for which we have identified the general issue.
 
 ```{r}
+#| label: un_full dataframe, merged unvotes, issues, and roll_calls
+#| echo: true
+#| output: true
+
 un_full <- unvotes |> 
   right_join(issues, by = "rcid") |> # Keep 'issues' rows, remove unmatched unvotes rows
   left_join(roll_calls, by = "rcid") # Retain left x rows, remove unmatched y rows
@@ -379,6 +424,10 @@ un_full <- unvotes |>
 
 Now, we are going to do some data cleaning.  Our goal is create a data set that includes the percentage of "yes" votes per country each year. Fill in the missing _________ with the correct verbs. We will call the data table `yes_votes`
 ```{r}
+#| label: yes_votes dataframe
+#| echo: true
+#| output: true
+
 yes_votes <- un_full |> 
   select(country, issue, date, vote) |>  #keep just the columns for country, issue, date, vote
   mutate(year = lubridate::year(date)) |> #create a new variable called year
@@ -398,6 +447,10 @@ Now write the clean data `yes_votes` to a new data set in the data folder so we 
 
 
 ```{r}
+#| label: Save yes_votes df into data folder
+#| echo: true
+#| output: true
+
 write_csv(yes_votes, "data/yes_votes.csv")
 ```
 
@@ -407,6 +460,10 @@ write_csv(yes_votes, "data/yes_votes.csv")
 Now we can feed the `yes_votes` transformed data table into your graphing code, but first we will want to focus on the United States and Canada. *Provide a comment to describe what each line of code is doing in the process*.  
 
 ```{r}
+#| label: yes_votes faceted scatterplot 
+#| echo: true
+#| output: true
+
 yes_votes |> 
   filter(country %in% c("United States","Canada")) |> # select only countries from US and CA
   ggplot(mapping = aes(x = year, y = percent_yes, color = country)) + # Create graph, set x & y axis, color code by country
@@ -431,6 +488,7 @@ yes_votes |>
 What do you notice about the voting records over time? 
 
 Response by River Mckegney
+
 > Trends across all voting topics tend to follow a similar rise and fall pattern (of yes votes) which repreats itself through time. Topics of arms control, human rights, and nuclear weapons appear to be correlated as they follow similar trends relative to the timescale. Likewise, colonialism, economic development, and the palestinian conflict also appear related to eachother.  
 
 
@@ -443,13 +501,21 @@ Response by River Mckegney
 After your instructor created the above plot, she became curious about how politics might impact the UN Voting record for the United States since UN Ambassador is a presidential appointment. So your instructor started searching for a data set of US presidents, their years in office, and their political affiliation.  She found a data set on Kaggle.com and removed the information prior to 1940 (because the dates were coded funny and it was causing problems). She saved the data as `us_presidents.csv` and imported it into the project.
 
 ```{r}
+#| label: Read presedents dataset into dataframe
+#| echo: true
+#| output: true
+
 president <- read_csv("data/us_presidents.csv")
 ```
 
-She realized that her data only had the start/end dates for each president and she wanted a data set that filled in the missing years and political party for the president in that time period.  After much googling and reading Stack Overflow, found two functions she did not know about called `complete()` and `fill()` to fill in the missing years and party affiliations  
+She realized that her data only had the start/end dates for each president and she wanted a data set that filled in the missing years and political party for the president in that time period. After much googling and reading Stack Overflow, found two functions she did not know about called `complete()` and `fill()` to fill in the missing years and party affiliations  
 
 
 ```{r}
+#| label: politics_year, using fill & complete functions
+#| echo: true
+#| output: true
+
 politics_year <- president |> 
     mutate(start = lubridate::mdy(start),  #formats date correctly
            start_year = lubridate::year(start)) |> #pulls out year
@@ -457,6 +523,8 @@ politics_year <- president |>
   select(start_year, party) |>   #pulls out just the variables of interest
   complete(start_year = seq(min(start_year), 2020, by = 1)) |> #fill in missing years
   fill(party) #fill in missing party affiliations for years
+
+glimpse(politics_year)
 ```
 
 
@@ -464,30 +532,35 @@ Next, your instructor took the `yes_votes` data and filtered out just the United
 
 Comment the code below: 
 ```{r}
+#| label: UN yes votes based on party affiliation scatterplot 
+#| echo: true
+#| output: true
+
 yes_votes |> 
-  filter(country == "United States") |>  #comment
-  left_join(politics_year, by = c("year" = "start_year")) |> #comment
-  group_by(issue) |>  #comment
-  mutate(predict = predict(loess(percent_yes~year))) |>  #comment
-  ggplot(mapping = aes(x = year, color = party, group = 1)) + #comment
-  geom_point(aes(y = percent_yes),alpha = 0.4) + #comment
-  geom_line(aes(y = predict)) + #comment
-  facet_wrap(~issue) + #comment
-  scale_y_continuous(labels = scales::percent) + #comment
+  filter(country == "United States") |>  # Filter for US votes
+  left_join(politics_year, by = c("year" = "start_year")) |> # Keep yes_votes rows, and matching politics_year rows
+  group_by(issue) |>  # Bin issue variables for upcoming calculation
+  mutate(predict = predict(loess(percent_yes~year))) |>  # Generate col for smoothline model
+  ggplot(mapping = aes(x = year, color = party, group = 1)) + # Create graph, set axes, and color code based on party
+  geom_point(aes(y = percent_yes),alpha = 0.4) + # Make scatterplot and set transparency 
+  geom_line(aes(y = predict)) + # Add smoothline model to scatterplot 
+  facet_wrap(~issue) + # Subdivide plots based on political issue
+  scale_y_continuous(labels = scales::percent) + # Scale y axis by percentage
   labs(
     title = "Percentage of 'Yes' votes in the UN General Assembly",
     subtitle = "1946 to 2015",
     y = "% Yes",
     x = "Year",
     color = "Country"
-  ) + #comment
-  theme_bw() + #comment
-  scale_color_manual(values = c("blue", "red")) + #comment
-  theme(legend.position = "bottom")  #comment
+  ) + # Add labels for title, subtitle, x & y axes, and legend
+  theme_bw() + # Add a black & white theme 
+  scale_color_manual(values = c("blue", "red")) + # Add color scheme
+  theme(legend.position = "bottom")  # Adjust legend position to bottom of graph
 ```
 
 What do you notice? What do you wonder?
 
-> Insert your answer
+Response by River Mckegney
 
+> I notice that for all topics, generally high yes votes appear associated with democrats, while low yes vote counts appear correlated to the republican party. With exception to the palestinian conflict topic, of which beginning from 1980s onward generally displays low yes votes for either party. Voting patters in general before the 1980s shows large variability in counts. After the 1980s voting patters across parties appear to become more similar in terms of percentage of yes votes (ie. scatterplot point density follow the trendline closer). I wonder if this could indicate a shift towards general consensus or agreement between ploitical parties across debated topics over time. 
 

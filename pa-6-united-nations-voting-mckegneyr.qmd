@@ -138,8 +138,7 @@ issues <- read_csv("data/issues.csv")
 ## Data Exploration
 Our goal today is to explore how various members (countries) in the United Nations vote. We have three data sets, what can we determine from each data set separately?
 
-Response by River Mckegney:
-
+Response by River Mckegney
 > With the 'unvotes' dataset we can evaluate location data (country level) associated with votes and also a countries vote type.
 With the 'roll_calls' dataset we can suss out the datetime and information about vote meetings held by the United Nations. The 'issues' dataset contains pertinent information about the vote topic.
 
@@ -148,7 +147,6 @@ With the 'roll_calls' dataset we can suss out the datetime and information about
 The first data set, `unvotes` contains data on the `rcid` which is the roll call id for the vote, the country/country code, and how the country voted. What can we learn from the data?  
 
 Response by River Mckegney
-
 > We can learn how each country decidided to vote about a specific issue, and what similarities or differences exist between countries representitive views.
 
 
@@ -207,7 +205,7 @@ roll_calls |>
 
 Description of code results
 
-Response by River Mckegney:
+Response by River Mckegney
 > The code block above displays the unique variables (short response descriptions) for the voting topics being decided upon. 
 
 
@@ -233,6 +231,7 @@ roll_calls |>
 
 What information is missing from the above graphic that might be useful in understanding the issues the UN commonly votes on?
 
+Response by River Mckegney
 > The graph is missing information about the voting topics, most appropriately the short descriptions associated with each UN ballot event in the 'short' column of the roll_calls dataset.
 
 
@@ -245,6 +244,7 @@ roll_calls |>
 
 Does the above information help us understand the voting issues of the UN over time? Explain.
 
+Response by River Mckegney
 > Yes, but not quite. The code above counts the total number of discrete vote topics, but does not divy out these counts across the years that they occured. This filtering process could be easily used with the graph above (and perhaps another grouping or filtering function) to illustrate how UN voting counts on specific issues change over time.
 
 
@@ -273,36 +273,51 @@ dim(issues)
 dim(roll_calls)
 ```
 
-
+Response by River Mckegney
 > The number of rows do not match between 'issues' (5745 rows) and 'roll_calls' (6202 rows). This indicates that the issues dataset does not contain all the observations (the historical record of votes data) that roll_calls does.
 
 
 
-Now let's try joining the `roll_calls` with the `issues` data.  Compare the following codes to join the data. Describe what each one does and how it differs from the others as a comment in the code chunk.  You might need to reference the slides or reading for this week.
+Now let's try joining the `roll_calls` with the `issues` data. Compare the following codes to join the data. Describe what each one does and how it differs from the others as a comment in the code chunk.  You might need to reference the slides or reading for this week.
 
 ```{r}
 roll_calls |> 
-  left_join(issues, by = "rcid") #description of join
+  left_join(issues, by = "rcid") 
+
+# Left joins merge the second or right df y 'issues' by all rows matching the first left df x 'roll_calls'. Missing values of df y across rows are then filled in with NAs.
+
+# Left join = keep all x rows, remove non-matching y rows
 ```
 
 ```{r}
 roll_calls |> 
-  right_join(issues, by = "rcid") #description of join
+  right_join(issues, by = "rcid") 
+
+# Right joins will keep all rows of df y 'issues' and remove unmatched rows of df x 'roll_calls' 
+
+# Right join = keep all y rows, remove unmatched x rows
 ```
 
 ```{r}
 roll_calls |> 
-  full_join(issues, by = "rcid") #description of join
+  full_join(issues, by = "rcid") 
+
+# Full joins will display all rows of left df x 'roll_calls' first, as is, then will include any unmatched rows of right df y 'issues' 
+
+# Full join = keep both x and y rows, including unmatched ones
 ```
 
 ```{r}
 roll_calls |> 
-  inner_join(issues, by = "rcid") #description of join
+  inner_join(issues, by = "rcid") 
+
+# Inner join = Keep only matching rows in both x and y
 ```
 
 **If we are only interested in retaining the records associated with the `issues` labeled in our data, which join(s) should we use?**
 
-> Insert answer here
+Response by River Mckegney
+> With this format (assuming roll_calls as left df, x), we could use a right join to retain all rows in issues (removes unmatched rows from roll_calls), or a full join to keep rows from both dataframes. 
 
 
 

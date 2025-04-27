@@ -3634,23 +3634,23 @@ First, look at the number of rows in <code>issues</code> and <code>roll_calls</c
 <p>Now we can feed the <code>yes_votes</code> transformed data table into your graphing code, but first we will want to focus on the United States and Canada. <em>Provide a comment to describe what each line of code is doing in the process</em>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>yes_votes <span class="sc">|&gt;</span> </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;United States&quot;</span>,<span class="st">&quot;Canada&quot;</span>)) <span class="sc">|&gt;</span> <span class="co"># your comment here</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> percent_yes, <span class="at">color =</span> country)) <span class="sc">+</span> <span class="co"># your comment here</span></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="co"># your comment here</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;United States&quot;</span>,<span class="st">&quot;Canada&quot;</span>)) <span class="sc">|&gt;</span> <span class="co"># select only countries from US and CA</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> percent_yes, <span class="at">color =</span> country)) <span class="sc">+</span> <span class="co"># Create graph, set x &amp; y axis, color code by country</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="co"># Create scatterplot, set transparency </span></span>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_line(aes(group = country)) +</span></span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="co">#this fits a special model called a loess regression, a smooth line that fits the data</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>issue) <span class="sc">+</span> <span class="co"># your comment here</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span> <span class="co">#your comment here</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>issue) <span class="sc">+</span> <span class="co"># Divy out plots based on issue variable</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span> <span class="co"># Change y-axis scale to percent values</span></span>
 <span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Percentage of &#39;Yes&#39; votes in the UN General Assembly&quot;</span>,</span>
 <span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;1946 to 2015&quot;</span>,</span>
 <span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;% Yes&quot;</span>,</span>
 <span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
 <span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Country&quot;</span></span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="co">#your comment here</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="co"># Edit and add labels for graph title, subtitle, x &amp; y axis, and legend title</span></span>
 <span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="sc">+</span> <span class="co">#your comment here </span></span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;turbo&quot;</span>) <span class="co">#your comment here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="sc">+</span> <span class="co"># Move legend position to bottom of graph</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;turbo&quot;</span>) <span class="co"># Adjust the color scheme </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -3660,9 +3660,7 @@ First, look at the number of rows in <code>issues</code> and <code>roll_calls</c
 </div>
 </div>
 <p>What do you notice about the voting records over time?</p>
-<blockquote class="blockquote">
-<p>Insert Answer Here</p>
-</blockquote>
+<p>Response by River Mckegney &gt; Trends across all voting topics tend to follow a similar rise and fall pattern (of yes votes) which repreats itself through time. Topics of arms control, human rights, and nuclear weapons appear to be correlated as they follow similar trends relative to the timescale. Likewise, colonialism, economic development, and the palestinian conflict also appear related to eachother.</p>
 </section>
 <section id="challenge-2-adding-more-data" class="level1">
 <h1>Challenge 2: Adding more data</h1>
@@ -4603,87 +4601,88 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb36-444"><a href="#cb36-444" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-447"><a href="#cb36-447" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb36-448"><a href="#cb36-448" aria-hidden="true" tabindex="-1"></a>yes_votes <span class="sc">|&gt;</span> </span>
-<span id="cb36-449"><a href="#cb36-449" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;United States&quot;</span>,<span class="st">&quot;Canada&quot;</span>)) <span class="sc">|&gt;</span> <span class="co"># your comment here</span></span>
-<span id="cb36-450"><a href="#cb36-450" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> percent_yes, <span class="at">color =</span> country)) <span class="sc">+</span> <span class="co"># your comment here</span></span>
-<span id="cb36-451"><a href="#cb36-451" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="co"># your comment here</span></span>
+<span id="cb36-449"><a href="#cb36-449" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;United States&quot;</span>,<span class="st">&quot;Canada&quot;</span>)) <span class="sc">|&gt;</span> <span class="co"># select only countries from US and CA</span></span>
+<span id="cb36-450"><a href="#cb36-450" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> percent_yes, <span class="at">color =</span> country)) <span class="sc">+</span> <span class="co"># Create graph, set x &amp; y axis, color code by country</span></span>
+<span id="cb36-451"><a href="#cb36-451" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="co"># Create scatterplot, set transparency </span></span>
 <span id="cb36-452"><a href="#cb36-452" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_line(aes(group = country)) +</span></span>
 <span id="cb36-453"><a href="#cb36-453" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="co">#this fits a special model called a loess regression, a smooth line that fits the data</span></span>
-<span id="cb36-454"><a href="#cb36-454" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>issue) <span class="sc">+</span> <span class="co"># your comment here</span></span>
-<span id="cb36-455"><a href="#cb36-455" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span> <span class="co">#your comment here</span></span>
+<span id="cb36-454"><a href="#cb36-454" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>issue) <span class="sc">+</span> <span class="co"># Divy out plots based on issue variable</span></span>
+<span id="cb36-455"><a href="#cb36-455" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span> <span class="co"># Change y-axis scale to percent values</span></span>
 <span id="cb36-456"><a href="#cb36-456" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb36-457"><a href="#cb36-457" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Percentage of &#39;Yes&#39; votes in the UN General Assembly&quot;</span>,</span>
 <span id="cb36-458"><a href="#cb36-458" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;1946 to 2015&quot;</span>,</span>
 <span id="cb36-459"><a href="#cb36-459" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;% Yes&quot;</span>,</span>
 <span id="cb36-460"><a href="#cb36-460" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
 <span id="cb36-461"><a href="#cb36-461" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Country&quot;</span></span>
-<span id="cb36-462"><a href="#cb36-462" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="co">#your comment here</span></span>
+<span id="cb36-462"><a href="#cb36-462" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="co"># Edit and add labels for graph title, subtitle, x &amp; y axis, and legend title</span></span>
 <span id="cb36-463"><a href="#cb36-463" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb36-464"><a href="#cb36-464" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="sc">+</span> <span class="co">#your comment here </span></span>
-<span id="cb36-465"><a href="#cb36-465" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;turbo&quot;</span>) <span class="co">#your comment here</span></span>
+<span id="cb36-464"><a href="#cb36-464" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="sc">+</span> <span class="co"># Move legend position to bottom of graph</span></span>
+<span id="cb36-465"><a href="#cb36-465" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">&quot;turbo&quot;</span>) <span class="co"># Adjust the color scheme </span></span>
 <span id="cb36-466"><a href="#cb36-466" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb36-467"><a href="#cb36-467" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-468"><a href="#cb36-468" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-469"><a href="#cb36-469" aria-hidden="true" tabindex="-1"></a>What do you notice about the voting records over time? </span>
 <span id="cb36-470"><a href="#cb36-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-471"><a href="#cb36-471" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;Insert Answer Here</span></span>
-<span id="cb36-472"><a href="#cb36-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-471"><a href="#cb36-471" aria-hidden="true" tabindex="-1"></a>Response by River Mckegney</span>
+<span id="cb36-472"><a href="#cb36-472" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Trends across all voting topics tend to follow a similar rise and fall pattern (of yes votes) which repreats itself through time. Topics of arms control, human rights, and nuclear weapons appear to be correlated as they follow similar trends relative to the timescale. Likewise, colonialism, economic development, and the palestinian conflict also appear related to eachother.</span>  </span>
 <span id="cb36-473"><a href="#cb36-473" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-474"><a href="#cb36-474" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-475"><a href="#cb36-475" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-476"><a href="#cb36-476" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-477"><a href="#cb36-477" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-478"><a href="#cb36-478" aria-hidden="true" tabindex="-1"></a><span class="fu"># Challenge 2: Adding more data</span></span>
-<span id="cb36-479"><a href="#cb36-479" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You do not need to complete this section unless you want to! It is a challenge problem to help you further apply what you did above. --&gt;</span></span>
-<span id="cb36-480"><a href="#cb36-480" aria-hidden="true" tabindex="-1"></a>After your instructor created the above plot, she became curious about how politics might impact the UN Voting record for the United States since UN Ambassador is a presidential appointment. So your instructor started searching for a data set of US presidents, their years in office, and their political affiliation.  She found a data set on Kaggle.com and removed the information prior to 1940 (because the dates were coded funny and it was causing problems). She saved the data as <span class="in">`us_presidents.csv`</span> and imported it into the project.</span>
-<span id="cb36-481"><a href="#cb36-481" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-484"><a href="#cb36-484" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-485"><a href="#cb36-485" aria-hidden="true" tabindex="-1"></a>president <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/us_presidents.csv&quot;</span>)</span>
-<span id="cb36-486"><a href="#cb36-486" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-487"><a href="#cb36-487" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-488"><a href="#cb36-488" aria-hidden="true" tabindex="-1"></a>She realized that her data only had the start/end dates for each president and she wanted a data set that filled in the missing years and political party for the president in that time period.  After much googling and reading Stack Overflow, found two functions she did not know about called <span class="in">`complete()`</span> and <span class="in">`fill()`</span> to fill in the missing years and party affiliations  </span>
-<span id="cb36-489"><a href="#cb36-489" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-478"><a href="#cb36-478" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-479"><a href="#cb36-479" aria-hidden="true" tabindex="-1"></a><span class="fu"># Challenge 2: Adding more data</span></span>
+<span id="cb36-480"><a href="#cb36-480" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- You do not need to complete this section unless you want to! It is a challenge problem to help you further apply what you did above. --&gt;</span></span>
+<span id="cb36-481"><a href="#cb36-481" aria-hidden="true" tabindex="-1"></a>After your instructor created the above plot, she became curious about how politics might impact the UN Voting record for the United States since UN Ambassador is a presidential appointment. So your instructor started searching for a data set of US presidents, their years in office, and their political affiliation.  She found a data set on Kaggle.com and removed the information prior to 1940 (because the dates were coded funny and it was causing problems). She saved the data as <span class="in">`us_presidents.csv`</span> and imported it into the project.</span>
+<span id="cb36-482"><a href="#cb36-482" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-485"><a href="#cb36-485" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-486"><a href="#cb36-486" aria-hidden="true" tabindex="-1"></a>president <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/us_presidents.csv&quot;</span>)</span>
+<span id="cb36-487"><a href="#cb36-487" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-488"><a href="#cb36-488" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-489"><a href="#cb36-489" aria-hidden="true" tabindex="-1"></a>She realized that her data only had the start/end dates for each president and she wanted a data set that filled in the missing years and political party for the president in that time period.  After much googling and reading Stack Overflow, found two functions she did not know about called <span class="in">`complete()`</span> and <span class="in">`fill()`</span> to fill in the missing years and party affiliations  </span>
 <span id="cb36-490"><a href="#cb36-490" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-493"><a href="#cb36-493" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-494"><a href="#cb36-494" aria-hidden="true" tabindex="-1"></a>politics_year <span class="ot">&lt;-</span> president <span class="sc">|&gt;</span> </span>
-<span id="cb36-495"><a href="#cb36-495" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">start =</span> lubridate<span class="sc">::</span><span class="fu">mdy</span>(start),  <span class="co">#formats date correctly</span></span>
-<span id="cb36-496"><a href="#cb36-496" aria-hidden="true" tabindex="-1"></a>           <span class="at">start_year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(start)) <span class="sc">|&gt;</span> <span class="co">#pulls out year</span></span>
-<span id="cb36-497"><a href="#cb36-497" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(start_year <span class="sc">&gt;</span> <span class="dv">1940</span>) <span class="sc">|&gt;</span>  <span class="co">#removes data before 1940 since there was no UN</span></span>
-<span id="cb36-498"><a href="#cb36-498" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start_year, party) <span class="sc">|&gt;</span>   <span class="co">#pulls out just the variables of interest</span></span>
-<span id="cb36-499"><a href="#cb36-499" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(<span class="at">start_year =</span> <span class="fu">seq</span>(<span class="fu">min</span>(start_year), <span class="dv">2020</span>, <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span> <span class="co">#fill in missing years</span></span>
-<span id="cb36-500"><a href="#cb36-500" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(party) <span class="co">#fill in missing party affiliations for years</span></span>
-<span id="cb36-501"><a href="#cb36-501" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-502"><a href="#cb36-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-491"><a href="#cb36-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-494"><a href="#cb36-494" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-495"><a href="#cb36-495" aria-hidden="true" tabindex="-1"></a>politics_year <span class="ot">&lt;-</span> president <span class="sc">|&gt;</span> </span>
+<span id="cb36-496"><a href="#cb36-496" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">start =</span> lubridate<span class="sc">::</span><span class="fu">mdy</span>(start),  <span class="co">#formats date correctly</span></span>
+<span id="cb36-497"><a href="#cb36-497" aria-hidden="true" tabindex="-1"></a>           <span class="at">start_year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(start)) <span class="sc">|&gt;</span> <span class="co">#pulls out year</span></span>
+<span id="cb36-498"><a href="#cb36-498" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(start_year <span class="sc">&gt;</span> <span class="dv">1940</span>) <span class="sc">|&gt;</span>  <span class="co">#removes data before 1940 since there was no UN</span></span>
+<span id="cb36-499"><a href="#cb36-499" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(start_year, party) <span class="sc">|&gt;</span>   <span class="co">#pulls out just the variables of interest</span></span>
+<span id="cb36-500"><a href="#cb36-500" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(<span class="at">start_year =</span> <span class="fu">seq</span>(<span class="fu">min</span>(start_year), <span class="dv">2020</span>, <span class="at">by =</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span> <span class="co">#fill in missing years</span></span>
+<span id="cb36-501"><a href="#cb36-501" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(party) <span class="co">#fill in missing party affiliations for years</span></span>
+<span id="cb36-502"><a href="#cb36-502" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb36-503"><a href="#cb36-503" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-504"><a href="#cb36-504" aria-hidden="true" tabindex="-1"></a>Next, your instructor took the <span class="in">`yes_votes`</span> data and filtered out just the United States data and then joined by year to add the party affiliation of the president for each year of UN votes.  To create the visualization with the smoothed model, but color by party affiliation, she had to add a new column called <span class="in">`predict`</span> that fit the model first instead of using <span class="in">`geom_smooth()`</span>.  </span>
-<span id="cb36-505"><a href="#cb36-505" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-506"><a href="#cb36-506" aria-hidden="true" tabindex="-1"></a>Comment the code below: </span>
-<span id="cb36-509"><a href="#cb36-509" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-510"><a href="#cb36-510" aria-hidden="true" tabindex="-1"></a>yes_votes <span class="sc">|&gt;</span> </span>
-<span id="cb36-511"><a href="#cb36-511" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">&quot;United States&quot;</span>) <span class="sc">|&gt;</span>  <span class="co">#comment</span></span>
-<span id="cb36-512"><a href="#cb36-512" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(politics_year, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;start_year&quot;</span>)) <span class="sc">|&gt;</span> <span class="co">#comment</span></span>
-<span id="cb36-513"><a href="#cb36-513" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(issue) <span class="sc">|&gt;</span>  <span class="co">#comment</span></span>
-<span id="cb36-514"><a href="#cb36-514" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predict =</span> <span class="fu">predict</span>(<span class="fu">loess</span>(percent_yes<span class="sc">~</span>year))) <span class="sc">|&gt;</span>  <span class="co">#comment</span></span>
-<span id="cb36-515"><a href="#cb36-515" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">color =</span> party, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb36-516"><a href="#cb36-516" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> percent_yes),<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb36-517"><a href="#cb36-517" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> predict)) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb36-518"><a href="#cb36-518" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>issue) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb36-519"><a href="#cb36-519" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb36-520"><a href="#cb36-520" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb36-521"><a href="#cb36-521" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Percentage of &#39;Yes&#39; votes in the UN General Assembly&quot;</span>,</span>
-<span id="cb36-522"><a href="#cb36-522" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;1946 to 2015&quot;</span>,</span>
-<span id="cb36-523"><a href="#cb36-523" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;% Yes&quot;</span>,</span>
-<span id="cb36-524"><a href="#cb36-524" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
-<span id="cb36-525"><a href="#cb36-525" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Country&quot;</span></span>
-<span id="cb36-526"><a href="#cb36-526" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb36-527"><a href="#cb36-527" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb36-528"><a href="#cb36-528" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="sc">+</span> <span class="co">#comment</span></span>
-<span id="cb36-529"><a href="#cb36-529" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)  <span class="co">#comment</span></span>
-<span id="cb36-530"><a href="#cb36-530" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-531"><a href="#cb36-531" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-532"><a href="#cb36-532" aria-hidden="true" tabindex="-1"></a>What do you notice? What do you wonder?</span>
-<span id="cb36-533"><a href="#cb36-533" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-534"><a href="#cb36-534" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert your answer</span></span>
-<span id="cb36-535"><a href="#cb36-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-504"><a href="#cb36-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-505"><a href="#cb36-505" aria-hidden="true" tabindex="-1"></a>Next, your instructor took the <span class="in">`yes_votes`</span> data and filtered out just the United States data and then joined by year to add the party affiliation of the president for each year of UN votes.  To create the visualization with the smoothed model, but color by party affiliation, she had to add a new column called <span class="in">`predict`</span> that fit the model first instead of using <span class="in">`geom_smooth()`</span>.  </span>
+<span id="cb36-506"><a href="#cb36-506" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-507"><a href="#cb36-507" aria-hidden="true" tabindex="-1"></a>Comment the code below: </span>
+<span id="cb36-510"><a href="#cb36-510" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-511"><a href="#cb36-511" aria-hidden="true" tabindex="-1"></a>yes_votes <span class="sc">|&gt;</span> </span>
+<span id="cb36-512"><a href="#cb36-512" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">==</span> <span class="st">&quot;United States&quot;</span>) <span class="sc">|&gt;</span>  <span class="co">#comment</span></span>
+<span id="cb36-513"><a href="#cb36-513" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(politics_year, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;start_year&quot;</span>)) <span class="sc">|&gt;</span> <span class="co">#comment</span></span>
+<span id="cb36-514"><a href="#cb36-514" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(issue) <span class="sc">|&gt;</span>  <span class="co">#comment</span></span>
+<span id="cb36-515"><a href="#cb36-515" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predict =</span> <span class="fu">predict</span>(<span class="fu">loess</span>(percent_yes<span class="sc">~</span>year))) <span class="sc">|&gt;</span>  <span class="co">#comment</span></span>
+<span id="cb36-516"><a href="#cb36-516" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">color =</span> party, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb36-517"><a href="#cb36-517" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> percent_yes),<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb36-518"><a href="#cb36-518" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> predict)) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb36-519"><a href="#cb36-519" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>issue) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb36-520"><a href="#cb36-520" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb36-521"><a href="#cb36-521" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-522"><a href="#cb36-522" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Percentage of &#39;Yes&#39; votes in the UN General Assembly&quot;</span>,</span>
+<span id="cb36-523"><a href="#cb36-523" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;1946 to 2015&quot;</span>,</span>
+<span id="cb36-524"><a href="#cb36-524" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;% Yes&quot;</span>,</span>
+<span id="cb36-525"><a href="#cb36-525" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb36-526"><a href="#cb36-526" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Country&quot;</span></span>
+<span id="cb36-527"><a href="#cb36-527" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb36-528"><a href="#cb36-528" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb36-529"><a href="#cb36-529" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>)) <span class="sc">+</span> <span class="co">#comment</span></span>
+<span id="cb36-530"><a href="#cb36-530" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)  <span class="co">#comment</span></span>
+<span id="cb36-531"><a href="#cb36-531" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-532"><a href="#cb36-532" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-533"><a href="#cb36-533" aria-hidden="true" tabindex="-1"></a>What do you notice? What do you wonder?</span>
+<span id="cb36-534"><a href="#cb36-534" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-535"><a href="#cb36-535" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Insert your answer</span></span>
+<span id="cb36-536"><a href="#cb36-536" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

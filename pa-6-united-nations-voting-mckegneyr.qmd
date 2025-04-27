@@ -408,29 +408,30 @@ Now we can feed the `yes_votes` transformed data table into your graphing code, 
 
 ```{r}
 yes_votes |> 
-  filter(country %in% c("United States","Canada")) |> # your comment here
-  ggplot(mapping = aes(x = year, y = percent_yes, color = country)) + # your comment here
-  geom_point(alpha = 0.4) + # your comment here
+  filter(country %in% c("United States","Canada")) |> # select only countries from US and CA
+  ggplot(mapping = aes(x = year, y = percent_yes, color = country)) + # Create graph, set x & y axis, color code by country
+  geom_point(alpha = 0.4) + # Create scatterplot, set transparency 
   #geom_line(aes(group = country)) +
   geom_smooth(method = "loess", se = FALSE) + #this fits a special model called a loess regression, a smooth line that fits the data
-  facet_wrap(~issue) + # your comment here
-  scale_y_continuous(labels = scales::percent) + #your comment here
+  facet_wrap(~issue) + # Divy out plots based on issue variable
+  scale_y_continuous(labels = scales::percent) + # Change y-axis scale to percent values
   labs(
     title = "Percentage of 'Yes' votes in the UN General Assembly",
     subtitle = "1946 to 2015",
     y = "% Yes",
     x = "Year",
     color = "Country"
-  ) + #your comment here
+  ) + # Edit and add labels for graph title, subtitle, x & y axis, and legend title
   theme_bw() +
-  theme(legend.position = "bottom") + #your comment here 
-  scale_color_viridis_d(option = "turbo") #your comment here
+  theme(legend.position = "bottom") + # Move legend position to bottom of graph
+  scale_color_viridis_d(option = "turbo") # Adjust the color scheme 
 ```
 
 
 What do you notice about the voting records over time? 
 
->Insert Answer Here
+Response by River Mckegney
+> Trends across all voting topics tend to follow a similar rise and fall pattern (of yes votes) which repreats itself through time. Topics of arms control, human rights, and nuclear weapons appear to be correlated as they follow similar trends relative to the timescale. Likewise, colonialism, economic development, and the palestinian conflict also appear related to eachother.  
 
 
 
